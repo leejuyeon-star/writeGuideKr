@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 public class ClaudeController {
     private final ClaudeService claudeService;
 
-    // postman에 "Hello"라고 하면 답변 온다
     @PostMapping("/")
     public Mono<ClaudeResponseApiDto> request(@RequestBody String prompt) {
 //        String prompt = claudeRequestDto.get

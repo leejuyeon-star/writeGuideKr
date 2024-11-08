@@ -7,6 +7,11 @@ import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseDto;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeoutException;
 
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor
@@ -44,20 +49,30 @@ public class ClaudeController {
         System.out.println(String.format("%s %s", String.format("Replace '%s' that appears after '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {'1':'first','2':'second','3':'third'}", targetWord, targetBeforeWord)
         , targetSentence));
 
+        Mono<ClaudeResponseApiDto> responseApiDtoMono;
+        Mono<ClaudeResponseDto> responseDtoMono;
         if (targetBeforeWord != null) {
             //중복된 단어가 존재하는 경우
-            return claudeService.sendApiRequestWithJson(
+            responseApiDtoMono = claudeService.sendApiRequestWithJson(
                     String.format("Replace '%s' that appears after '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {'1':'first','2':'second','3':'third'}", targetWord, targetBeforeWord),
                     targetSentence
             );
 
         } else {
             //중복된 단어 존재하지 않는 경우
-            return claudeService.sendApiRequestWithJson(
+            responseApiDtoMono = claudeService.sendApiRequestWithJson(
                     String.format("Replace '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {'1':'first','2':'second','3':'third'}", targetWord),
                     targetSentence
             );
         }
+
+
+        responseApiDtoMono.subscribe(
+                (data) -> System.out.println("( 정상작동 or api에러 )Index : " + data),   //여기서 ClaudeResponseApiDto를 ClaudeResponseDto로 바꿔
+                (error) -> System.err.println("백엔드 Error : " + error.getMessage())
+        );
+
+        return responseApiDtoMono;
     }
 }
 

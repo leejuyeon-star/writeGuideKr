@@ -16,7 +16,7 @@ public class ClaudeResponseApiDto {
 
     public static ClaudeResponseApiDto getClaudeErrorDto(String errorMessage) {
         ClaudeResponseApiDto claudeResponseApiDto = new ClaudeResponseApiDto();
-        Content content = new Content();
+        ClaudeResponseApiDto.Content content = new ClaudeResponseApiDto.Content();
         content.setText(errorMessage);
         claudeResponseApiDto.setType("error");
         claudeResponseApiDto.setContent(List.of(content));

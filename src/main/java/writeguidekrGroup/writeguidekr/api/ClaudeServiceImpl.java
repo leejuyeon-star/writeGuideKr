@@ -7,7 +7,7 @@ import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,8 @@ public class ClaudeServiceImpl implements ClaudeService {
             } catch(JsonProcessingException e) {
                 System.out.println("JsonProcessingException"+e.getMessage());
                 //재시도하라는 메시지 보내자
-                claudeResponseDto.setErrorMessage("답변이 json 형식을 따르지 않음 오류");
+//                claudeResponseDto.setErrorMessage("답변이 json 형식을 따르지 않음 오류");
+                claudeResponseDto.setErrorMessage("다시 시도해주세요");
             }
 //        } else if (claudeResponseApiDto.getType().equals("error")) { //api 에러날 시
 //            System.out.println("claudeResponseApiDto.getType().equals(\"error\")");

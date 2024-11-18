@@ -1,4 +1,4 @@
-package writeguidekrGroup.writeguidekr.api.dto;
+package writeguidekrGroup.writeguidekr.controller.dto.claude;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

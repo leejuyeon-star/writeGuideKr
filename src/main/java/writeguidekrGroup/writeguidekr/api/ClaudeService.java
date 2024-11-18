@@ -1,10 +1,9 @@
 package writeguidekrGroup.writeguidekr.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
-import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
 
 @Service
 public interface ClaudeService {

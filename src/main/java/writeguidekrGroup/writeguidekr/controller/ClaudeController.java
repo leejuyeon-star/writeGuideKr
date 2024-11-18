@@ -1,14 +1,14 @@
 package writeguidekrGroup.writeguidekr.controller;
 import writeguidekrGroup.writeguidekr.api.ClaudeService;
-import writeguidekrGroup.writeguidekr.api.dto.claudeRequest.ApiAfterSentenceRequestDto;
-import writeguidekrGroup.writeguidekr.api.dto.claudeRequest.ApiBetweenPhraseRequestDto;
+import writeguidekrGroup.writeguidekr.controller.dto.claude.ApiAfterSentenceRequestDto;
+import writeguidekrGroup.writeguidekr.controller.dto.claude.ApiBetweenPhraseRequestDto;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
 
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor
@@ -32,16 +32,16 @@ public class ClaudeController {
         System.out.println(targetSentence);
 
 
-//        Mono<ClaudeResponseDto> responseDtoMono = claudeService.sendApiRequestWithJson(
-//                "Suggest 3 Korean phrases that naturally follow this sentence. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
-//                targetSentence
-//        );
-
-
         Mono<ClaudeResponseDto> responseDtoMono = claudeService.sendApiRequestWithJson(
                 "Suggest 3 Korean phrases that naturally follow this sentence. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
-                "이로 인해 유전적 질병의 치료뿐만 아니라 자질 강화는 물론이고 자녀의 유전자마저 결정할 수 있다. 바야흐로 인간은 자연 진화의 주인 자리에 올라 진정"
+                targetSentence
         );
+
+
+//        Mono<ClaudeResponseDto> responseDtoMono = claudeService.sendApiRequestWithJson(
+//                "Suggest 3 Korean phrases that naturally follow this sentence. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
+//                "이로 인해 유전적 질병의 치료뿐만 아니라 자질 강화는 물론이고 자녀의 유전자마저 결정할 수 있다. 바야흐로 인간은 자연 진화의 주인 자리에 올라 진정"
+//        );
 
         return responseDtoMono;
     }

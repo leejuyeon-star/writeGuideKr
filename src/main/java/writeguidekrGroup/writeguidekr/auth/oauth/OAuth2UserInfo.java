@@ -1,4 +1,4 @@
-package writeguidekrGroup.writeguidekr.dto;
+package writeguidekrGroup.writeguidekr.auth.oauth;
 
 public interface OAuth2UserInfo {
     String getProviderId();

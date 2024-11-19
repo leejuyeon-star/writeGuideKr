@@ -1,27 +1,27 @@
 package writeguidekrGroup.writeguidekr.controller;
 import writeguidekrGroup.writeguidekr.api.ClaudeService;
-import writeguidekrGroup.writeguidekr.controller.dto.claude.ApiAfterSentenceRequestDto;
-import writeguidekrGroup.writeguidekr.controller.dto.claude.ApiBetweenPhraseRequestDto;
+import writeguidekrGroup.writeguidekr.domain.dto.claude.ApiAfterSentenceRequestDto;
+import writeguidekrGroup.writeguidekr.domain.dto.claude.ApiBetweenPhraseRequestDto;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
 
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor
-@RequestMapping("/api/claude")
+//@RequestMapping("/api/claude")        //이걸 설정하면 비동기가 아닌 동기적으로 동작함
 public class ClaudeController {
     private final ClaudeService claudeService;
 
-    @PostMapping("/")
+    @PostMapping("/api/claude/")
     public Mono<ClaudeResponseApiDto> request(@RequestBody String prompt) {
         return claudeService.sendApiRequest("say hi");
     }
 
-    @PostMapping("/aftersentence")
+    @PostMapping("/api/claude/aftersentence")
     public Mono<ClaudeResponseDto> apiRecommendAfterSentenceRequest(@RequestBody ApiAfterSentenceRequestDto apiAfterSentenceRequestDto) {
         String targetSentence = apiAfterSentenceRequestDto.getTargetSentence();
         System.out.println("apiRecommendAfterSentenceRequest");
@@ -49,7 +49,7 @@ public class ClaudeController {
 
 
 
-    @PostMapping("/betweenphrase")
+    @PostMapping("/api/claude/betweenphrase")
     public Mono<ClaudeResponseDto> apiRecommendPhraseRequest(@RequestBody ApiBetweenPhraseRequestDto apiBetweenPhraseRequestDto) {
         String targetWord = apiBetweenPhraseRequestDto.getTargetWord();
         String targetSentence = apiBetweenPhraseRequestDto.getTargetSentence();

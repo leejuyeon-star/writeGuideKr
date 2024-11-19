@@ -3,7 +3,7 @@ package writeguidekrGroup.writeguidekr.api;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
-import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
 
 @Service
 public interface ClaudeService {

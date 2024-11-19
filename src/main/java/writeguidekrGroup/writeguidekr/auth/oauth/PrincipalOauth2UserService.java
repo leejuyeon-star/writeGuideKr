@@ -1,10 +1,9 @@
-package writeguidekrGroup.writeguidekr.service;
+package writeguidekrGroup.writeguidekr.auth.oauth;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -12,8 +11,12 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import writeguidekrGroup.writeguidekr.dto.NaverUserInfo;
-import writeguidekrGroup.writeguidekr.dto.OAuth2UserInfo;
+import writeguidekrGroup.writeguidekr.auth.PrincipalDetails;
+import writeguidekrGroup.writeguidekr.domain.UserRole;
+import writeguidekrGroup.writeguidekr.auth.oauth.NaverUserInfo;
+import writeguidekrGroup.writeguidekr.auth.oauth.OAuth2UserInfo;
+import writeguidekrGroup.writeguidekr.domain.entity.User;
+import writeguidekrGroup.writeguidekr.repository.UserRepository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +25,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
-//    private final UserRepository userRepository;
+    private final UserRepository userRepository;
+
+//    private final BCryptPasswordEncoder encoder;       //비밀번호 암호화, 비밀번호 체크할때 사용
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -47,6 +52,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         User user = null;
 
         if(optionalUser.isEmpty()) {
+            //회원가입
             user = User.builder()
                     .loginId(loginId)
                     .nickname(nickname)
@@ -67,8 +73,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
      * 비밀번호 암호화, 비밀번호 체크할때 사용
      * 처음 앱 실행시 호출됨
      * */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }

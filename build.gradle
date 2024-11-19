@@ -24,11 +24,13 @@ repositories {
 }
 
 dependencies {
+//	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'		//restApi를 사용하기 때문에 view기능 하는 것 비활성화
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// 동기 방식 사용할때
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//Spring WebMvc를 대체함, 비동기 논블러킹 방식으로 개발할때 사용
+	// 비동기 논블럭킹 방식 사용할때
 	//Mono<>, Flex<> 사용가능하게 됨
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	// Configuration Properties 처리를 위한 의존성 추가
@@ -38,10 +40,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	//Oauth2 사용 위함
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	//h2
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

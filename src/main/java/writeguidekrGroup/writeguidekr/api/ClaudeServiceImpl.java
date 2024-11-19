@@ -7,7 +7,7 @@ import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import writeguidekrGroup.writeguidekr.controller.dto.claude.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;

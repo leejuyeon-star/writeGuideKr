@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 //import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import writeguidekrGroup.writeguidekr.auth.oauth.PrincipalOauth2UserService;
 
 // 참고 링크1(다양한 로그인 방법) : https://chb2005.tistory.com/173
@@ -48,7 +49,7 @@ public class SecurityConfig {
      * */
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())       //세션상태 유지할때 CSRF보호를 위한 것, stateless API인 경우, 즉 세션 상태를 유지하지 않는 경우이므로(쿠키 대신 토큰을 사용하는 경우) 비활성화(코드를 쓰는게 비활성화하는것임)(보안을 위해 개발중일때만 해당코드 활성화하기)
+                .csrf(csrf -> csrf.disable())       //세션상태 유지할때 CSRF보호를 위한 것, stateless API인 경우(쿠키 대신 토큰을 사용하는 경우) 비활성화(코드를 쓰는게 비활성화하는것임)(보안을 위해 개발중일때만 해당코드 활성화하기)
                 .authorizeHttpRequests(authorize -> authorize
                                 //(인증 여부 확인) 로그인된 사용자만 접근 가능하도록 함
 //                .requestMatchers(LOGIN_TYPE+"/info").authenticated()
@@ -60,12 +61,19 @@ public class SecurityConfig {
                 )
                 //Oauth 로그인
                 .oauth2Login(oauth2 -> oauth2
-                                .loginPage("/login") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
+//                                .loginPage("/login") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
 //                  .failureUrl("/login?error=true") // 로그인 실패 시 경로
                                 .defaultSuccessUrl("/login-success", true) // 로그인 성공 후 리다이렉트 경로
                                 .userInfoEndpoint(userInfo -> userInfo
                                         .userService(principalOauth2UserService))         // 사용자의 정보 처리하기
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout") // 로그아웃 요청 경로
+                        .logoutSuccessUrl("/logout-success") // 로그아웃 성공 후 리다이렉트
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );
+
 
 //                .formLogin(formLogin -> formLogin                           //로그인시 form login 방식을 사용하겠다고 선언
 //                                .usernameParameter("loginId")                       // html에서 'username'대신 'loginId'를 사용하겠다고 명시

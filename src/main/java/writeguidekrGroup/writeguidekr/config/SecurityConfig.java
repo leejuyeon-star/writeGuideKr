@@ -7,22 +7,13 @@ package writeguidekrGroup.writeguidekr.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 //import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import writeguidekrGroup.writeguidekr.auth.oauth.PrincipalOauth2UserService;
-import writeguidekrGroup.writeguidekr.domain.UserRole;
-
-import java.io.IOException;
 
 // 참고 링크1(다양한 로그인 방법) : https://chb2005.tistory.com/173
 // WebSecurityConfigurerAdapter을 더이상 사용할 수 없게 되어 SecurityFilterChain로 변경됨
@@ -32,7 +23,7 @@ import java.io.IOException;
 @EnableWebSecurity          //스프링 시큐리티 설정을 정의하는 클래스임을 나타냄
 @RequiredArgsConstructor
 /*
-* 인증,인가 설정을 controller에서 할 수 있도록 함. 
+* 인증,인가 설정을 controller에서 할 수 있도록 함.
 * 자기 아이디만 접근 가능하도록 할 수 있음 저장한 노트 리스트 볼때 사용해보자
 * 참고:https://velog.io/@shon5544/Spring-Security-4.-%EA%B6%8C%ED%95%9C-%EC%B2%98%EB%A6%AC
 *
@@ -69,11 +60,11 @@ public class SecurityConfig {
                 )
                 //Oauth 로그인
                 .oauth2Login(oauth2 -> oauth2
-                    .loginPage("/login") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
-                    .defaultSuccessUrl("/login-success", true) // 로그인 성공 후 리다이렉트 경로
+                                .loginPage("/login") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
 //                  .failureUrl("/login?error=true") // 로그인 실패 시 경로
-                    .userInfoEndpoint(userInfo -> userInfo
-                            .userService(principalOauth2UserService))         // 사용자의 정보 처리하기
+                                .defaultSuccessUrl("/login-success", true) // 로그인 성공 후 리다이렉트 경로
+                                .userInfoEndpoint(userInfo -> userInfo
+                                        .userService(principalOauth2UserService))         // 사용자의 정보 처리하기
                 );
 
 //                .formLogin(formLogin -> formLogin                           //로그인시 form login 방식을 사용하겠다고 선언

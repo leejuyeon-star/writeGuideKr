@@ -3,7 +3,7 @@ package writeguidekrGroup.writeguidekr.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import writeguidekrGroup.writeguidekr.domain.entity.User;
+import writeguidekrGroup.writeguidekr.domain.entity.Member;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,10 +12,10 @@ import java.util.Map;
 //Oauth로 회원가입한 경우와 직접 회원가입한 경우의 틀을 동일화 하여 저장하기 위한 클래스
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private User user;
+    private Member member;
 
-    public PrincipalDetails(User user) {
-        this.user = user;
+    public PrincipalDetails(Member member) {
+        this.member = member;
     }
 
     // 권한 관련 작업을 하기 위한 role return
@@ -23,7 +23,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collections = new ArrayList<>();
         collections.add(() -> {
-            return user.getRole().name();
+            return member.getRole().name();
         });
 
         return collections;
@@ -32,13 +32,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // get Password 메서드
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return member.getPassword();
     }
 
     // get Username 메서드 (생성한 User은 loginId 사용)
     @Override
     public String getUsername() {
-        return user.getLoginId();
+        return member.getLoginId();
     }
 
     // 계정이 만료 되었는지 (true: 만료X)
@@ -68,8 +68,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // OAuth 로그인
     private Map<String, Object> attributes;
 
-    public PrincipalDetails(User user, Map<String, Object> attributes) {
-        this.user = user;
+    public PrincipalDetails(Member member, Map<String, Object> attributes) {
+        this.member = member;
         this.attributes = attributes;
     }
 

@@ -3,20 +3,15 @@ package writeguidekrGroup.writeguidekr.auth.oauth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import writeguidekrGroup.writeguidekr.auth.PrincipalDetails;
-import writeguidekrGroup.writeguidekr.domain.UserRole;
-import writeguidekrGroup.writeguidekr.auth.oauth.NaverUserInfo;
-import writeguidekrGroup.writeguidekr.auth.oauth.OAuth2UserInfo;
-import writeguidekrGroup.writeguidekr.domain.entity.User;
-import writeguidekrGroup.writeguidekr.repository.UserRepository;
+import writeguidekrGroup.writeguidekr.domain.MemberRole;
+import writeguidekrGroup.writeguidekr.domain.entity.Member;
+import writeguidekrGroup.writeguidekr.repository.MemberRepository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
 //    private final BCryptPasswordEncoder encoder;       //비밀번호 암호화, 비밀번호 체크할때 사용
 
@@ -38,34 +33,38 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
-        if (provider.equals("naver")) {
+        if(provider.equals("google")) {
+            log.info("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo( oAuth2User.getAttributes() );
+        } else if (provider.equals("naver")) {
             log.info("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
         }
+
 
         String providerId = oAuth2UserInfo.getProviderId();
         String email = oAuth2UserInfo.getEmail();
         String loginId = provider + "_" + providerId;
         String nickname = oAuth2UserInfo.getName();
 
-        Optional<User> optionalUser = userRepository.findByLoginId(loginId);
-        User user = null;
+        Optional<Member> optionalUser = memberRepository.findByLoginId(loginId);
+        Member member = null;
 
         if(optionalUser.isEmpty()) {
             //회원가입
-            user = User.builder()
+            member = Member.builder()
                     .loginId(loginId)
                     .nickname(nickname)
                     .provider(provider)
                     .providerId(providerId)
-                    .role(UserRole.USER)
+                    .role(MemberRole.USER)
                     .build();
-            userRepository.save(user);
+            memberRepository.save(member);
         } else {
-            user = optionalUser.get();
+            member = optionalUser.get();
         }
 
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        return new PrincipalDetails(member, oAuth2User.getAttributes());
     }
 
 

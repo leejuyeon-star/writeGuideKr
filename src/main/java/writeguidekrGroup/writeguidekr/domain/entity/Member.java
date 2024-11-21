@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import writeguidekrGroup.writeguidekr.domain.UserRole;
+import writeguidekrGroup.writeguidekr.domain.MemberRole;
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
     private String password;
     private String nickname;
 
-    private UserRole role;
+    private MemberRole role;
 
     // OAuth 로그인에 사용
     private String provider;

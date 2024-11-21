@@ -5,11 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import writeguidekrGroup.writeguidekr.domain.dto.Account;
-import writeguidekrGroup.writeguidekr.repository.UserRepository;
 import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
-
-import java.util.Map;
 
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor

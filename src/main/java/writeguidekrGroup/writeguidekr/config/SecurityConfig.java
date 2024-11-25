@@ -61,15 +61,15 @@ public class SecurityConfig {
                 )
                 //Oauth 로그인
                 .oauth2Login(oauth2 -> oauth2
-//                                .loginPage("/login") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
+                                .loginPage("/login-page") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다
 //                  .failureUrl("/login?error=true") // 로그인 실패 시 경로
-                                .defaultSuccessUrl("/login-success", true) // 로그인 성공 후 리다이렉트 경로
+                                .defaultSuccessUrl("/",true) // 로그인 성공 후 리다이렉트 경로
                                 .userInfoEndpoint(userInfo -> userInfo
                                         .userService(principalOauth2UserService))         // 사용자의 정보 처리하기
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/api/logout") // 로그아웃 요청 경로
-                        .logoutSuccessUrl("/logout-success") // 로그아웃 성공 후 리다이렉트
+                        .logoutUrl("/logout") // 로그아웃 요청 경로
+                        .logoutSuccessUrl("/login-page") // 로그아웃 성공 후 리다이렉트
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );

@@ -51,3 +51,101 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+
+
+
+//참고 : https://mopil.tistory.com/59
+// 스프링 부트를 jar로 빌드 할 때, 리액트도 같이 빌드해서 static 폴더에 넣겠다는 뜻
+
+def frontendDir = "$projectDir/src/main/frontend"
+
+sourceSets {
+	main {
+		resources { srcDirs = ["$projectDir/src/main/resources"]
+		}
+	}
+}
+
+tasks.named("processResources") {
+	dependsOn("copyReactBuildFiles")
+}
+//
+//task installReact(type: Exec) {
+//	workingDir "$frontendDir"
+//	inputs.dir "$frontendDir"
+//	group = BasePlugin.BUILD_GROUP
+//	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+//		commandLine "npm.cmd", "audit", "fix"
+//		commandLine 'npm.cmd', 'install' }
+//	else {
+//		commandLine "npm", "audit", "fix" commandLine 'npm', 'install'
+//	}
+//}
+//
+//task buildReact(type: Exec) {
+//	dependsOn "installReact"
+//	workingDir "$frontendDir"
+//	inputs.dir "$frontendDir"
+//	group = BasePlugin.BUILD_GROUP
+//	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+//		commandLine "npm.cmd", "run-script", "build"
+//	} else {
+//		commandLine "npm", "run-script", "build"
+//	}
+//}
+//
+//task copyReactBuildFiles(type: Copy) {
+//	dependsOn "buildReact"
+//	from "$frontendDir/build"
+//	into "$projectDir/src/main/resources/static"
+//}
+
+
+// React 패키지 설치 작업
+task installReact(type: Exec) {
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
+
+	group = "build"
+	description = "Install npm dependencies for React frontend."
+
+	// 운영체제에 맞는 명령어 실행
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "audit", "fix"
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "audit", "fix"
+		commandLine "npm", "install"
+	}
+}
+
+// React 빌드 작업
+task buildReact(type: Exec) {
+	dependsOn installReact
+	workingDir "$frontendDir"
+	inputs.dir "$frontendDir"
+
+	group = "build"
+	description = "Build the React frontend."
+
+	// 운영체제에 맞는 명령어 실행
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "run", "build"
+	} else {
+		commandLine "npm", "run", "build"
+	}
+}
+
+// React 빌드 결과물을 Spring Boot의 static 디렉토리로 복사
+task copyReactBuildFiles(type: Copy) {
+	dependsOn buildReact
+	from "$frontendDir/build"
+	into "$projectDir/src/main/resources/static"
+
+	group = "build"
+	description = "Copy React build files into Spring Boot static resources."
+}
+

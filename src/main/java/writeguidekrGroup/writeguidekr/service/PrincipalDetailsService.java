@@ -9,9 +9,11 @@ import writeguidekrGroup.writeguidekr.auth.PrincipalDetails;
 import writeguidekrGroup.writeguidekr.domain.entity.Member;
 import writeguidekrGroup.writeguidekr.repository.MemberRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
-public class PrincipalDetailsService implements UserDetailsService {
+public class PrincipalDetailsService implements UserDetailsService{
 
 
     private final MemberRepository memberRepository;
@@ -23,5 +25,16 @@ public class PrincipalDetailsService implements UserDetailsService {
                     return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
                 });
         return new PrincipalDetails(member);
+    }
+
+
+    public Member loadMemberByLoginId(String loginId) {
+        Optional<Member> optionalMember = memberRepository.findByLoginId(loginId);
+        Member member = null;
+
+        if(!optionalMember.isEmpty()) {
+            member = optionalMember.get();
+        }
+        return member;
     }
 }

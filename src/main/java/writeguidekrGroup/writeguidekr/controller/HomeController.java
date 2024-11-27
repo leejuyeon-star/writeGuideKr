@@ -1,20 +1,18 @@
 package writeguidekrGroup.writeguidekr.controller;
 
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import writeguidekrGroup.writeguidekr.domain.entity.Member;
+//import writeguidekrGroup.writeguidekr.service.MemberService;
 import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
-
-import java.io.IOException;
 
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor
 public class HomeController {
+//    private final MemberService memberServiceImpl;
     private final PrincipalDetailsService principalDetailsService;
 
 
@@ -38,11 +36,18 @@ public class HomeController {
 
     @GetMapping("/get-nickname")
     @ResponseBody
-    public void redirectLogout(Authentication auth) {
-//    public ResponseEntity<?> redirectLogout(Authentication auth) {
-        System.out.println(auth.getName());  //이게아마 id일거임 아니그걸 어떻게 알아?
-//        return ResponseEntity.status(HttpStatus.FOUND)  // 302 Found 이 status 보내면 자동으로 해당 링크로 redirect됨
-//            .header("Location", redirectUrl)  // 리다이렉션 URL
-//            .build();
+    public ResponseEntity<?> redirectLogout(Authentication auth){
+        if (auth == null || !auth.isAuthenticated()) {
+            //로그아웃된 상황
+            return ResponseEntity.ok().body("");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
+        }
+        System.out.println("?");
+        String memberLoginId = auth.getName();      //id
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+
+        // 사용자 정보 반환
+        return ResponseEntity.ok().body(member.getNickname());
     }
+
 }

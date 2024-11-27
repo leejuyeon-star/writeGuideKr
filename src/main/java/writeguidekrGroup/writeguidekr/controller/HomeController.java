@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
@@ -35,4 +36,13 @@ public class HomeController {
 //        return redirect(homeUrl+"/login");
 //    }
 
+    @GetMapping("/get-nickname")
+    @ResponseBody
+    public void redirectLogout(Authentication auth) {
+//    public ResponseEntity<?> redirectLogout(Authentication auth) {
+        System.out.println(auth.getName());  //이게아마 id일거임 아니그걸 어떻게 알아?
+//        return ResponseEntity.status(HttpStatus.FOUND)  // 302 Found 이 status 보내면 자동으로 해당 링크로 redirect됨
+//            .header("Location", redirectUrl)  // 리다이렉션 URL
+//            .build();
+    }
 }

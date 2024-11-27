@@ -1,0 +1,39 @@
+.mh-container {
+    /* border: 1px solid  #ccc; */
+    border-bottom: 1px solid rgb(53, 53, 53);
+    padding: 0px 30px 0px 30px;
+    background-color: aqua;
+    /* margin: 0px; */
+    /* border: 0px; */
+    height: 50px;
+
+    display: flex;        /* Flexbox 사용 아래 코드 사용하기 위함 */
+    /*justify-content: center;*/ /* 수평 중앙 정렬 */
+    align-items: center;  /* 세로 중앙 정렬 */
+    /* background-color: #ffffff; */
+
+    position: sticky;       /*상단고정*/
+    top: 0px; /* 도달했을때 고정시킬 위치 */
+}
+
+
+.mh-introduce-button {
+    border: #cccccc00;    /* 테두리 */
+    /* background-color: #cccccc00; */
+    padding: 10px 10px 10px 10px;
+    margin: 0px 10px 0px 10px;
+}
+
+
+.mh-introduce-button:hover {
+    /* border: 1px solid #cccccc00; */   /* 테두리 */
+    background-color: #0000001c;
+}
+
+.mh-title-button {
+    border: .1px solid #cccccc00;    /* 테두리 */
+    /* background-color: #cccccc00; */
+}
+
+
+

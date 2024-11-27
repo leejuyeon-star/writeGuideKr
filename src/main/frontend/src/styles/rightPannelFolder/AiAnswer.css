@@ -1,0 +1,343 @@
+
+
+/* 화면이 1200px 이상일 때 */
+@media (min-width: 1200px) {
+    .aa-response-text-button {
+        font-size: 1.3rem;
+    }
+}
+
+/* 화면이 768px 이상 1199px 이하일 때 */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .aa-response-text-button {
+        font-size: 1.1rem;
+    }
+}
+
+/* 화면이 767px 이하일 때 (모바일) */
+@media (max-width: 767px) {
+    .aa-response-text-button {
+        font-size: 0.9rem;
+    }
+}
+
+.aa-header-title {
+    display: inline-block;
+    /* float: left; */
+    width: 70%;               /* 화면 너비의 90% */
+    height: 100%;              /* 화면 높이의 80% */
+    /*max-width: 600px;          */         /* 최대 너비 */
+    /* padding:  */
+}
+
+
+.aa-close-button {
+    display: inline-block;
+    /* float: right; */
+    /* width: 40px;    */          /*화면 너비의 90% */
+    height: 100%;             /* 화면 높이의 80% */
+    /*max-width: 20%; */                  /* 최대 너비 제한 */
+    /*max-height: 100%; */                 /* 최대 높이 제한 */
+    font-size: 2rem;         /* 폰트 크기 */
+    /*padding: 10px 30px;*/             /* 내부 여백 */
+    margin: 7% 0px;              /* 외부 여백 */
+    border: 1px solid #cccccc00;    /* 테두리 */
+    background-color: #cccccc00;
+    /*box-sizing: border-box;*/    /* 패딩과 테두리를 너비에 포함 */
+    aspect-ratio: 1 / 1;      /* 정사각형 비율 */
+}
+
+
+.aa-textarea-section {
+    background-color: rgb(255, 255, 255);
+    display:table;
+    /* margin: 20px 0px 0px 0px;               */
+    width: 100%;               
+    height: 300px; 
+    /* border: 1px solid #000000;      */
+    --text-section-height: 70px;    
+}
+
+.aa-idle-section {
+    background-color: #f5f5f5;
+    display: table-cell;
+    vertical-align:middle;
+    /* display: flex; */
+    height: 20px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    text-align: center;         /*폰트 좌우 가운데 정렬*/
+    /*align-items: center;*/        /*폰트 상하 가운데 정렬*/
+    margin: 80px;
+    /* padding: 10px; */
+    /* background-color:rgb(255, 98, 0); */
+    white-space: pre-line       /* \n 개행 적용되도록 함 */
+}
+
+.aa-loading-section {
+    margin: 10px 0px;              /* 외부 여백 */
+    display:table;
+
+    width: 100%;        /*블럭의 너비*/
+    height: var(--text-section-height);    /*블럭의 높이*/
+    background-color: rgb(74, 121, 42);    /* 블럭 색상 */
+    /* background-color: rgb(154, 255, 86);    블럭 색상 */
+    /* background-color: #0000007d; */
+    /* border-radius: 0px 10px 10px 10px;        모서리 둥글게  */
+    text-align: left;
+    align-items: center;        /*폰트 상하 가운데 정렬*/
+} 
+
+.aa-response-text-button {
+    margin: 10px 0px;              
+    display: flex;
+    /* position: absolute; */
+    width: 100%;        
+    height: var(--text-section-height); 
+    padding: 20px;
+    box-sizing: border-box;    /* 패딩과 테두리를 너비에 포함 */
+    border-radius: 5px;
+    /* border-radius: 0px 10px 10px 10px ; */
+    border: 0px;
+    text-align: left;
+    align-items: center;        /*폰트 상하 가운데 정렬*/
+}
+
+.aa-response-text-button:hover {
+    background-color: #84e4b7;    /* 블럭 색상 */
+}
+
+.aa-response-text-button.clicked {
+    background-color: #84e4b7;    
+}
+
+.aa-retry-button {
+    border-radius: 20px;
+    border: 0px;
+    background-color: white;
+    width: 35px;
+    height: 35px;
+    padding: 7px 4px 4px 5px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.aa-retry-button:hover {
+    background-color: #00000032;
+}
+
+.aa-retry-img {
+    /* text-align: left; */
+    /* align-items: center;        폰트 상하 가운데 정렬 */
+    /* border: 10px; */
+    width: 20px;
+    height: 20px;
+}
+
+
+
+.aa-error-container {
+    background-color: rgba(0, 0, 0, 0.099);
+    display: table-cell;
+    vertical-align:middle;
+    /* display: flex; */
+    height: 20px;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    text-align: center;         /*폰트 좌우 가운데 정렬*/
+    /*align-items: center;*/        /*폰트 상하 가운데 정렬*/
+    margin: 80px;
+    /* padding: 10px; */
+    /* background-color:rgb(255, 98, 0); */
+    white-space: pre-line       /* \n 개행 적용되도록 함 */
+}
+
+.aa-error-header {
+    font-size: 1.7rem;
+    .image {
+        /* src: "/images/warning_yellow.png"; */
+        width: 30px;
+        height: 30px;
+    }
+    padding: 20px;
+}
+
+
+
+.switch1{
+    animation: shake-horizontal1 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) 500ms both;  /*0.5초 지연 (1000ms both)*/
+}
+.switch2{
+    animation: shake-horizontal2 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) 500ms both;  /*0.5초 지연 (1000ms both)*/
+}
+
+
+@keyframes shake-horizontal1 {  /*shake-horizontal2와 내용이 같아야 함!*/
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70% {
+      transform: translateX(-5px);
+    }
+    20%,
+    40%,
+    60% {
+      transform: translateX(5px);
+    }
+    80% {
+      transform: translateX(3px);
+    }
+    90% {
+      transform: translateX(-3px);
+    }
+}
+
+@keyframes shake-horizontal2 {      /*shake-horizontal1와 내용이 같아야 함!*/
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70% {
+      transform: translateX(-5px);
+    }
+    20%,
+    40%,
+    60% {
+      transform: translateX(5px);
+    }
+    80% {
+      transform: translateX(3px);
+    }
+    90% {
+      transform: translateX(-3px);
+    }
+}
+
+
+/*  ---------------- 로딩중 애니메이션 ---------------------*/
+/* 참고링크: https://story.pxd.co.kr/922 */
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+/* .aa-loading-animation-container{
+  text-align: center;
+  background-color: #e74c3c;
+  overflow: hidden;
+} */
+
+.aa-loading-animation-box{
+    width: 100%;        /*블럭의 너비*/
+    height: 100%;    /*블럭의 높이*/
+    background-color: #afafaf;
+    border-radius: 5px;
+
+    /* margin-left: auto;  */
+    /* margin-right: auto; */
+    
+    /* display: inline-block; */
+    /* height: var(--text-section-height);                   aa-loading-section의 height와 같아야 함 */
+    /* width: 33.3%; */
+    
+    /* float:left; */
+    /* position: relative; */
+    /* margin:0 -4px -5px -2px; */
+    /* transition: all .2s ease; */
+}
+
+/* .aa-loading-animation-box:nth-child(2n-1){ */
+/* background-color: rgba(0,0,0,0.05);       box의 background-color */
+/* } */
+
+
+/* MEDIA QUERIES */
+/* @media (max-width: 700px){
+    .aa-loading-animation-box{
+      width: 50%;
+    }
+  
+    .aa-loading-animation-box:nth-child(2n-1){
+      background-color: inherit;
+    }
+  
+    .aa-loading-animation-box:nth-child(4n),.aa-loading-animation-box:nth-child(4n-3) {
+      background-color: rgba(0,0,0,0.05);
+    }
+  
+  }
+  
+  @media (max-width: 420px){
+    .aa-loading-animation-box{
+      width: 100%;
+    }
+  
+    .aa-loading-animation-box:nth-child(4n),.aa-loading-animation-box:nth-child(4n-3){
+      background-color: inherit;
+    }
+  
+    .aa-loading-animation-box:nth-child(2n-1){
+      background-color:rgba(0,0,0,0.05);
+    }
+  } */
+
+.aa-loading-animation-loader{
+    position: relative;
+    width: 12px;
+    height: 12px;
+  
+    top: 46%;
+    top: -webkit-calc(50% - 6px);
+    top: calc(50% - 6px);
+    left: 46%;
+    left: -webkit-calc(50% - 6px);
+    left: calc(50% - 6px);
+    
+    border-radius: 12px;
+    background-color: #fff;
+    -webkit-transform-origin:  50% 50%;
+        transform-origin:  50% 50% ;
+    -webkit-animation: aa-loading-animation-loader 1s ease-in-out infinite;
+        animation: aa-loading-animation-loader 1s ease-in-out infinite;
+  }
+  
+  .aa-loading-animation-loader:before{
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 255, 255, .5);
+    top: 0px;
+    left: -25px;
+    height: 12px;
+    width: 12px;
+    border-radius: 12px;
+  }
+  
+  .aa-loading-animation-loader:after{
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 255 ,255 ,.5);
+    top: 0px;
+    left: 25px;
+    height: 12px;
+    width: 12px;
+    border-radius: 12px;
+  }
+  
+  
+  @-webkit-keyframes aa-loading-animation-loader{
+      0%{-webkit-transform:rotate(0deg);}
+      50%{-webkit-transform:rotate(180deg);}
+      100%{-webkit-transform:rotate(180deg);}
+  }
+  
+  @keyframes aa-loading-animation-loader{
+      0%{transform:rotate(0deg);}
+      50%{transform:rotate(180deg);}
+      100%{transform:rotate(180deg);}
+  }
+
+  /*---------------------로딩중 애니메이션 마지막줄---------------------*/

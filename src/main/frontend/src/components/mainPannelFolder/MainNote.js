@@ -34,8 +34,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     useBeforeunload((event) => {event.preventDefault()});
 
     // =====라우터를 통한 이동시 알림창 띄우기 =====//
-    const blocker = useBlocker(
-        ({ currentLocation, nextLocation }) => {
+    const blocker = useBlocker(({ currentLocation, nextLocation }) => {
             return currentLocation.pathname !== nextLocation.pathname;
         //  return when && currentLocation.pathname !== nextLocation.pathname
         }
@@ -141,9 +140,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     //타자칠때
     const [cursorButtonPosition, setCursorButtonPosition] = useState({ top: 0, left: 0 });
     const onInput = (event) => {
-        if ((event.metaKey || event.ctrlKey) && event.key === "KeyB") {
-            console.log("아러ㅏㄴ얼");
-        }
         // console.log("event.target.innerText", event.target.innerText);
         // if (event.nativeEvent.isComposing) {
             // 자음과 모음 입력시 두 번 입력되는 오류 해결하기 위함
@@ -367,13 +363,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     
     //-------------------------//
 
-    // //=================단축키 감지==================//
-    // const onDetectShortcutKeyboard = (e) => {
-    //     if ((e.key === "z"||e.key === "ㅋ") && (e.ctrlKey || e.metaKey)) {
-            
-    //     }
-    // }
-    // //=============================================//
 
     //=========== undo/redo 관련  ===============//
     

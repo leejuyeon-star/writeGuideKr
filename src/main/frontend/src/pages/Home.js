@@ -9,6 +9,8 @@ import { IsRightPannelVisibleContext, AnswerStateContext, AnswerDetailsContext }
 import '../styles/Home.css'
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+// import { useBlocker, useNavigate} from "react-router-dom";              // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140
+
 
 
 
@@ -27,6 +29,8 @@ function Home() {
     const [content, setContent] = useState("");
     const [requestMsg, setRequestMsg] = useState("");
     const [responseErrorMsg, setResponseErrorMsg] = useState("");
+
+
 
 
 

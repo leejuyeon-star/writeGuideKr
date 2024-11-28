@@ -34,15 +34,15 @@ public class HomeController {
 //        return redirect(homeUrl+"/login");
 //    }
 
-    @GetMapping("/get-nickname")
+
+    @GetMapping("/nickname")
     @ResponseBody
     public ResponseEntity<?> redirectLogout(Authentication auth){
         if (auth == null || !auth.isAuthenticated()) {
             //로그아웃된 상황
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body("non-member");
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
         }
-        System.out.println("?");
         String memberLoginId = auth.getName();      //id
         Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
 
@@ -50,4 +50,17 @@ public class HomeController {
         return ResponseEntity.ok().body(member.getNickname());
     }
 
+    @GetMapping("/token-sum")
+    @ResponseBody
+    public ResponseEntity<?> getTokenSum(Authentication auth){
+        if (auth == null || !auth.isAuthenticated()) {
+            //로그아웃된 상황
+            return ResponseEntity.ok().body("non-member");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
+        }
+        String memberLoginId = auth.getName();      //id
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+
+        return ResponseEntity.ok().body(member.getTokenSum());
+    }
 }

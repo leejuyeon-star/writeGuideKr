@@ -16,4 +16,6 @@ public interface ClaudeService {
     Mono<ClaudeResponseDto> sendApiRequestWithJson(String system, String prompt);
 
     ClaudeResponseDto formatIntoResponseDto(boolean isNetworkError, ClaudeResponseApiDto claudeResponseApiDto);
+
+    Mono<ClaudeResponseDto> sendCustomError(String msg);
 }

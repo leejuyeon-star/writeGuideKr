@@ -130,5 +130,11 @@ public class ClaudeServiceImpl implements ClaudeService {
         return null;
     }
 
+    @Override
+    public Mono<ClaudeResponseDto> sendCustomError(String msg) {
+        ClaudeResponseDto claudeResponseDto = new ClaudeResponseDto();
+        claudeResponseDto.setErrorMessage(msg);
+        return Mono.just(claudeResponseDto);
+    }
 
 }

@@ -6,8 +6,7 @@ import { Transition } from 'react-transition-group';
 // import MainNote from "./MainNote";
 import MainNote from "./mainPannelFolder/MainNote";
 import { IsRightPannelVisibleContext, AnswerStateContext } from '../ContextProvider';
-import MainFooter from "./mainPannelFolder/MainFooter";
-
+import MasterFooter from "./MasterFooter"
 
 
 function MainPannel({ onRequestedHelp, changedContentInfo}) {
@@ -42,7 +41,7 @@ function MainPannel({ onRequestedHelp, changedContentInfo}) {
                         <div className="mp-advertise-container">
                             광고    
                         </div>
-                        <MainFooter />
+                        <MasterFooter />
                         
 
                     </div>

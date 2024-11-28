@@ -9,9 +9,8 @@ import { IsRightPannelVisibleContext, AnswerStateContext, AnswerDetailsContext }
 import '../styles/Home.css'
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
-// import { useBlocker, useNavigate} from "react-router-dom";              // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140
-
-
+// import { useBlocker, useNavigate} from "react-router-dom";       // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140 
+import { GetMemberInfo } from "../api/auth";          
 
 
 function Home() {
@@ -30,8 +29,29 @@ function Home() {
     const [requestMsg, setRequestMsg] = useState("");
     const [responseErrorMsg, setResponseErrorMsg] = useState("");
 
+    //home 들어올때마다 로그인했는지 확인 요청하기
+    //로그인했으면 
+
+    const [isMember, setIsMember] = useState(false);
+    const [tokenSum, setTokenSum] = useState(0);
 
 
+    //회원/게스트 여부 확인, token 개수 확인
+    useEffect(() => {
+        async function a() {
+            console.log("Home useEffect");
+            const _tokenSum = await GetMemberInfo("/token-sum");     //토큰 총 수 가져오기
+            if (_tokenSum === null) {
+                //비회원인 경우
+                setIsMember(false);
+            } else {
+                //회원인 경우
+                setTokenSum(_tokenSum);
+                setIsMember(true);
+            }
+        }
+        a();
+    }, []);
 
 
     const handleRequestedHelp = async ([_requestMsg, _content, _idx]) => {
@@ -145,7 +165,7 @@ function Home() {
 
     return (
         <div>
-            <MasterHeader />
+            {/* <MasterHeader /> */}
             <div className="h-pannel-container">
                 <div>
                     <br/><br/><br/>

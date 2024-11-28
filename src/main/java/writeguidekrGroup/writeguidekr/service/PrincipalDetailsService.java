@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import writeguidekrGroup.writeguidekr.auth.PrincipalDetails;
 import writeguidekrGroup.writeguidekr.domain.entity.Member;
 import writeguidekrGroup.writeguidekr.repository.MemberRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PrincipalDetailsService implements UserDetailsService{
 
 
@@ -37,4 +39,25 @@ public class PrincipalDetailsService implements UserDetailsService{
         }
         return member;
     }
+
+    public boolean hasToken(String loginId) {
+        Member member = loadMemberByLoginId(loginId);
+        if (member == null){
+            return false;
+        }
+        if (member.getTokenSum() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Transactional
+    public int useToken(String loginId) {
+        Member member = loadMemberByLoginId(loginId);
+        member.minusTokenSum(1);
+        return member.getTokenSum();
+    }
+
 }

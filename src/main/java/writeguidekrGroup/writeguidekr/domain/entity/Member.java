@@ -25,10 +25,27 @@ public class Member {
     private String loginId;
     private String password;
     private String nickname;
+    private int tokenSum;
 
     private MemberRole role;
 
     // OAuth 로그인에 사용
     private String provider;
     private String providerId;
+
+    public void plusTokenSum(int value) {
+        tokenSum += value;
+    }
+
+    public void minusTokenSum(int value) {
+        if (tokenSum <= 0) return;
+        tokenSum -= value;
+    }
+
+    public void updateTokenSum(int value) {
+        if (tokenSum > value) {
+            return;
+        }
+        tokenSum = value;
+    }
 }

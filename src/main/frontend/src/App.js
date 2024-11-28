@@ -23,12 +23,21 @@ import About from "./pages/About";
 import { ToastContainer } from 'react-toastify';
 import { ContextProvider } from './ContextProvider';
 import "./styles/tooltip.css";
+import Privacy from "./pages/Privacy";
+import MasterHeader from './components/MasterHeader';
+import MasterFooter from './components/MasterFooter';
+import Account from './pages/Account';
 
 // 데이터 라우터 정의
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: 
+    <>
+      <MasterHeader />
+      <Home />
+      {/* MasterFooter는 MainPannel에 포함됨 */}
+    </>,
   },
   {
     path: "/login-page",
@@ -36,7 +45,30 @@ const router = createBrowserRouter([
   },
   {
     path: "/about",
-    element: <About />,
+    element:     
+    <>
+      <MasterHeader />
+      <About />
+      <MasterFooter />
+    </>,
+  },
+  {
+    path: "/privacy",
+    element: 
+    <>
+      <MasterHeader />
+      <Privacy />
+      <MasterFooter />
+    </>,
+  },
+  {
+    path: "/account",
+    element: 
+    <>
+      <MasterHeader />
+      <Account />
+      <MasterFooter />
+    </>,
   },
 ]);
 

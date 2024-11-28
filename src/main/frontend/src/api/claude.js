@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 
 export const CallBetweenPhrase = async ([txt, idx]) => {
-
     async function getResponsePost(jsonRequestMsg) {
         try{
             console.log("jsonRequestMsg");

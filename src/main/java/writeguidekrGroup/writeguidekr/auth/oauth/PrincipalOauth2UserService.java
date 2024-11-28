@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import writeguidekrGroup.writeguidekr.auth.PrincipalDetails;
 import writeguidekrGroup.writeguidekr.domain.MemberRole;
 import writeguidekrGroup.writeguidekr.domain.entity.Member;
@@ -19,12 +20,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
 
 //    private final BCryptPasswordEncoder encoder;       //비밀번호 암호화, 비밀번호 체크할때 사용
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         log.info("getAttributes: {}", oAuth2User.getAttributes());
@@ -58,6 +61,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .provider(provider)
                     .providerId(providerId)
                     .role(MemberRole.USER)
+                    .tokenSum(1)       //기본 10 부여
                     .build();
             memberRepository.save(member);
         } else {

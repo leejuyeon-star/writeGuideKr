@@ -140,14 +140,14 @@
 .mn-bottom-container {
     position: sticky;       /*상단고정*/
     bottom: 0px; /* 도달했을때 고정시킬 위치 */
-    border-top: 1px solid #ccc;
+    /* border-top: 1px solid #ccc; */
 
     display: flex;
 }
 
 .mn-count-wholeText {
     margin-left:auto;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 

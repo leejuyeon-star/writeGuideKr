@@ -481,7 +481,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
                     </button> : null
                 }
                 <div className="mn-bottom-container">
-                    <div className="mn-count-wholeText">{wholeTextCountWithSpace}자 (띄어쓰기 미포함 {wholeTextCountWithoutSpace}자)</div>    
+                    <div className="mn-count-wholeText"> {wholeTextCountWithSpace}글자 (공백 제외 {wholeTextCountWithoutSpace}글자)</div>    
                 </div>
         </>
             // </div>

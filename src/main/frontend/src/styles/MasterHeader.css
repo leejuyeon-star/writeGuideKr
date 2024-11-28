@@ -1,38 +1,68 @@
 .mh-container {
     /* border: 1px solid  #ccc; */
     border-bottom: 1px solid rgb(53, 53, 53);
-    padding: 0px 30px 0px 30px;
-    background-color: aqua;
+    padding: 3px 30px 3px 30px;
+    background-color: #f5f5f5;
     /* margin: 0px; */
     /* border: 0px; */
     height: 50px;
 
     display: flex;        /* Flexbox 사용 아래 코드 사용하기 위함 */
+    justify-content: space-between;   /*중앙을 최대한 비우기*/
     /*justify-content: center;*/ /* 수평 중앙 정렬 */
     align-items: center;  /* 세로 중앙 정렬 */
     /* background-color: #ffffff; */
 
     position: sticky;       /*상단고정*/
     top: 0px; /* 도달했을때 고정시킬 위치 */
+
+
+}
+
+.mh-sub-container1 {
+    display: flex;
+    align-items: center;
+}
+
+.mh-sub-container2 {
+    display: flex;
+    align-items: center;
 }
 
 
-.mh-introduce-button {
-    border: #cccccc00;    /* 테두리 */
+.mh-introduce-button, .mh-account-button{
+    /* border: 1px solid rgb(53, 53, 53); */
     /* background-color: #cccccc00; */
     padding: 10px 10px 10px 10px;
     margin: 0px 10px 0px 10px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: #f5f5f5;
 }
 
 
-.mh-introduce-button:hover {
+.mh-introduce-button:hover, .mh-account-button:hover {
     /* border: 1px solid #cccccc00; */   /* 테두리 */
     background-color: #0000001c;
 }
 
 .mh-title-button {
-    border: .1px solid #cccccc00;    /* 테두리 */
-    /* background-color: #cccccc00; */
+    margin: 0px 10px 0px 0px;
+}
+
+
+
+.mh-login-button, .mh-logout-button {
+    background-color: #f5f5f5;
+    border: 1px solid rgb(53, 53, 53);
+    padding: 10px 10px 10px 10px;
+    margin: 0px 10px 0px 10px;
+    border-radius: 5px;
+}
+
+
+.mh-login-button:hover, .mh-logout-button:hover {
+    background-color: #0000001c;
 }
 
 

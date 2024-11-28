@@ -1,0 +1,18 @@
+
+
+.privacy-container {
+    display: flex;        /* Flexbox 사용 아래 코드 사용하기 위함 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;  /* 세로 중앙 정렬 */
+    /* background-color: #ffffff; */
+}
+
+
+
+.privacy-displayContant {
+    margin: 100px 30px;
+    border: 1px solid rgb(53, 53, 53);
+    padding: 10px 30px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}

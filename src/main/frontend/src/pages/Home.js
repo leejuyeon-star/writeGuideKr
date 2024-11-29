@@ -5,12 +5,12 @@ import MasterHeader from "../components/MasterHeader";
 import RightPannel from "../components/RightPannel";
 import { CSSTransition} from 'react-transition-group';
 import { CallBetweenPhrase, CallAfterSentence } from "../api/claude"
-import { IsRightPannelVisibleContext, AnswerStateContext, AnswerDetailsContext } from '../ContextProvider';
+import { IsRightPannelVisibleContext, AnswerStateContext, AnswerDetailsContext, MemberAccountContext } from '../ContextProvider';
 import '../styles/Home.css'
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 // import { useBlocker, useNavigate} from "react-router-dom";       // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140 
-import { GetMemberInfo } from "../api/auth";          
+import { GetMemberAccount } from "../api/auth";          
 
 
 function Home() {
@@ -18,6 +18,7 @@ function Home() {
     //전역변수
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
     const { state: {answerDetails}, actions:{setAnswerDetails} } = useContext(AnswerDetailsContext);
+    const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
     //
     //
 
@@ -33,25 +34,26 @@ function Home() {
     //로그인했으면 
 
     const [isMember, setIsMember] = useState(false);
-    const [tokenSum, setTokenSum] = useState(0);
 
 
+    //웹갱신시 or api 요청 직후 
     //회원/게스트 여부 확인, token 개수 확인
     useEffect(() => {
         async function a() {
             console.log("Home useEffect");
-            const _tokenSum = await GetMemberInfo("/token-sum");     //토큰 총 수 가져오기
-            if (_tokenSum === null) {
+            const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
+            if (localStorage.getItem("userName") === "") {
                 //비회원인 경우
                 setIsMember(false);
             } else {
                 //회원인 경우
-                setTokenSum(_tokenSum);
+                // setTokenSum(memberAccount.tokenSum);
+                setMemberAccount(_memberAccount);
                 setIsMember(true);
             }
         }
         a();
-    }, []);
+    }, [answerState]);
 
 
     const handleRequestedHelp = async ([_requestMsg, _content, _idx]) => {
@@ -123,6 +125,8 @@ function Home() {
             setResponseErrorMsg(msg);
             setAnswerState("ERROR");
         }
+
+
     
     }
 

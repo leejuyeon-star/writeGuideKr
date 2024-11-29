@@ -2,11 +2,13 @@ import PropTypes from "prop-types";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import '../../styles/rightPannelFolder/AiAnswer.css'
-import { IsRightPannelVisibleContext, AnswerStateContext } from '../../ContextProvider';
+import { IsRightPannelVisibleContext, AnswerStateContext,  MemberAccountContext} from '../../ContextProvider';
 
 
 function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg }) {
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
+    const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
+
     const [responseTxt, setResponseTxt] = useState("");
     const [isClickedResponseTextButton, setIsClickedResponseTextButton] = useState([false, 0]);
     const [animationSwitch, setAnimationSwitch] = useState(false);      //dom 업테이트를 통해 애니메이션 업데이트 하기 위함
@@ -141,9 +143,12 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
                             >
                                 {response[2]}
                             </button>
-                            <button onClick={handleClickRetry} className="aa-retry-button" tooltip="재시도" flow="right">
-                                <img src={retryImgUrl} className="aa-retry-img"/>
-                            </button>
+                            <div className="aa-textarea-bottom-section">
+                                <button onClick={handleClickRetry} className="aa-retry-button" tooltip="재시도" flow="right">
+                                    <img src={retryImgUrl} className="aa-retry-img"/>
+                                </button>
+                                <div className="aa-tokenSum">{memberAccount.tokenSum}토큰</div>
+                            </div>
                             {/* {isClickedResponseTextButton[0]  ? */}
                                 {/* <button onClick={handleClickConfirm}>결정</button> */}
                                 {/* : null */}

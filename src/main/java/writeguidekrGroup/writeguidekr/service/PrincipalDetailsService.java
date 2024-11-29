@@ -16,8 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PrincipalDetailsService implements UserDetailsService{
-
-
     private final MemberRepository memberRepository;
 
     @Override
@@ -40,11 +38,7 @@ public class PrincipalDetailsService implements UserDetailsService{
         return member;
     }
 
-    public boolean hasToken(String loginId) {
-        Member member = loadMemberByLoginId(loginId);
-        if (member == null){
-            return false;
-        }
+    public boolean hasToken(Member member) {
         if (member.getTokenSum() > 0) {
             return true;
         } else {
@@ -54,10 +48,20 @@ public class PrincipalDetailsService implements UserDetailsService{
 
 
     @Transactional
-    public int useToken(String loginId) {
-        Member member = loadMemberByLoginId(loginId);
+    public int useToken(Member member) {
         member.minusTokenSum(1);
+        System.out.println("use 1 token. current token sum:"+member.getTokenSum());
+        memberRepository.save(member);
         return member.getTokenSum();
+    }
+
+    int PLUS_HOUR = 4;       //최초 api 요청 4시간 이후 토큰 갱신
+    int UPDATE_TOKEN_COUNT = 10;    //토큰 갱신 수량 (최대값임, 기존값에 더하는것 x)
+
+    @Transactional
+    public void updateTokenSumAndRefreshTime(Member member) {
+        member.adjustTokenSumAndRefreshTime(UPDATE_TOKEN_COUNT, PLUS_HOUR);
+        memberRepository.save(member);
     }
 
 }

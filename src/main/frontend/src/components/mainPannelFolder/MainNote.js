@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import '../../styles/mainPannelFolder/MainNote.css'
 import { Transition } from 'react-transition-group';
-import { IsRightPannelVisibleContext, AnswerStateContext } from '../../ContextProvider';
+import { IsRightPannelVisibleContext, AnswerStateContext, MemberAccountContext } from '../../ContextProvider';
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import useUndoableState from "../../modules/useUndoableState";
@@ -14,7 +14,9 @@ import { onKeyboardEvent } from "../../modules/onKeyboardEvent";    //단축키 
 function MainNote({ onRequestedHelp, changedContentInfo }) {    
     const [changedContent, setChangedContent] = useState("");
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
-    
+    const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
+
+
     //작은 버튼 표시 여부
     const [isDraggedButtonOn, setIsDraggedButtonOn] = useState(false);
     const [isCursorButtonOn, setIsCursorButtonOn] = useState(false);
@@ -409,32 +411,42 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
 
 
 
-    
     return (
             // <div className="mn-sub-container">
             <>
                 <header className="mn-header">
-                    <button className="mn-back-button" onClick={onClickUndoButton} disabled={!canUndo} tooltip="되돌리기(ctrl+z)" flow="up">
-                        {canUndo ? 
-                            <img src={backBlackImgUrl} className="mn-back-black-img"/>
-                            :
-                            <img src={backWhiteImgUrl} className="mn-back-white-img"/>
+                    <div className="mn-sub-header1">
+                        <button className="mn-back-button" onClick={onClickUndoButton} disabled={!canUndo} tooltip="되돌리기(ctrl+z)" flow="up">
+                            {canUndo ? 
+                                <img src={backBlackImgUrl} className="mn-back-black-img"/>
+                                :
+                                <img src={backWhiteImgUrl} className="mn-back-white-img"/>
+                            }
+                        </button>
+                        <button className="mn-forward-button" onClick={onClickRedoButton} disabled={!canRedo} tooltip="다시 실행" flow="up">
+                            {canRedo ? 
+                                <img src={forwardBlackImgUrl} className="mn-forward-black-img"/>
+                                :
+                                <img src={forwardWhiteImgUrl} className="mn-forward-white-img"/>
+                            }
+                        </button>
+                        <button className="mn-copy-button" onClick={onClickCopyButton} tooltip="복사하기" flow="up">
+                            <img src={copyImgUrl} className="mn-copy-img"/>
+                        </button>
+                        <div className="mn-tokenSum" tooltip="ai 요청 가능 횟수" flow="up">{memberAccount.tokenSum} 토큰</div>
+                        {memberAccount.tokenSum != "0" ? 
+                            null
+                        :
+                            <div className="mn-tokenSum-nextTokenRefreshTime">{memberAccount.nextTokenRefreshTime} 이후 토큰 충전됨</div>
                         }
-                    </button>
-                    <button className="mn-forward-button" onClick={onClickRedoButton} disabled={!canRedo} tooltip="다시 실행" flow="up">
-                        {canRedo ? 
-                            <img src={forwardBlackImgUrl} className="mn-forward-black-img"/>
-                            :
-                            <img src={forwardWhiteImgUrl} className="mn-forward-white-img"/>
-                        }
-                    </button>
-                    <button className="mn-copy-button" onClick={onClickCopyButton} tooltip="복사하기" flow="up">
-                        <img src={copyImgUrl} className="mn-copy-img"/>
-                    </button>
-                    <button className="mn-share-button" onClick={onClickShareButton} tooltip="공유하기" flow="up">
-                        <img src={shareImgUrl} className="mn-share-img"/>
-                    </button>
-                    {/* <div>{isSaved ? `자동 저장됨`: ``}</div> */}
+                        {/* <button className="mn-share-button" onClick={onClickShareButton} tooltip="공유하기" flow="up"> */}
+                            {/* <img src={shareImgUrl} className="mn-share-img"/> */}
+                        {/* </button> */}
+                    </div>
+                    <div className="mn-sub-header2">
+                        <button className="mn-local-save-button">임시저장</button>
+                        {/* <div>{isSaved ? `자동 저장됨`: ``}</div> */}
+                    </div>
                 </header>
                 {changedContent ? 
                     <div                                     

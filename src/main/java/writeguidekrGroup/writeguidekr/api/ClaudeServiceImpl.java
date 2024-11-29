@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
+import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
 
 import java.util.ArrayList;
 import java.util.List;

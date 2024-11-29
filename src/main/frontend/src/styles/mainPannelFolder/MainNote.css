@@ -7,9 +7,19 @@
 
     display: flex;        /* Flexbox 사용 아래 코드 사용하기 위함 */
     /*justify-content: center;*/ /* 수평 중앙 정렬 */
+    justify-content: space-between;   /*중앙을 최대한 비우기*/
     align-items: center;  /* 세로 중앙 정렬 */
 }
 
+.mn-sub-header1 {
+    display: flex;
+    align-items: center;
+}
+
+.mn-sub-header2 {
+    display: flex;
+    align-items: center;
+}
 
 .mn-copy-button {
     /* 오른쪽 정렬 */
@@ -106,6 +116,30 @@
     height: 25px;
 }
 
+
+.mn-tokenSum {
+    margin: 8px 0px 8px 10px;
+}
+
+.mn-tokenSum-nextTokenRefreshTime {
+    font-size: 70%;
+    color:#656565;
+    margin: 8px 0px 8px 10px;
+}
+
+
+
+/* .mn-tokenSum:hover {
+
+} */
+
+.mn-local-save-button {
+    background-color: #f5f5f5;
+    border: 1px solid #353535;
+    border-radius: 5px;
+    /* margin: 0 10px; */
+    padding: 8px;
+}
 
 .mn-textarea{
     background-color: white;

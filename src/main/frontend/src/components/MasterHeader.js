@@ -4,7 +4,7 @@ import '../styles/MasterHeader.css'
 import { Transition } from 'react-transition-group';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import { GetMemberInfo } from "../api/auth";
+import { GetMemberAccount } from "../api/auth";
 import { sortedUniq } from "lodash";
 
 
@@ -15,14 +15,14 @@ function MasterHeader() {
 
     useEffect(() => {
         console.log("갱신", isMember);
-    }, [isMember])
+    }, [isMember]);
 
     //회원/게스트 여부 확인
     useEffect(() => {
         async function a() {
             console.log("Home useEffect");
-            const _tokenSum = await GetMemberInfo("/nickname");     //토큰 총 수 가져오기
-            if (_tokenSum === null) {
+            const memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
+            if (localStorage.getItem("userName") === "") {
                 //비회원인 경우
                 console.log("MasterHeader 비회원")
                 setIsMember(false);

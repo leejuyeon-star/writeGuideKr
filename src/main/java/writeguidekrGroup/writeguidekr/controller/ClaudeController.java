@@ -37,8 +37,11 @@ public class ClaudeController {
         String memberLoginId = auth.getName();      //id
 
         // 토큰이 1개 이상 있는지 확인
-//        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
-        if (!principalDetailsService.hasToken(memberLoginId)){
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+        if (member == null){
+            return claudeService.sendCustomError("로그인이 필요합니다.");
+        }
+        if (!principalDetailsService.hasToken(member)){
             return claudeService.sendCustomError("토큰이 부족합니다.");
         }
 
@@ -68,11 +71,13 @@ public class ClaudeController {
 
 
         String memberLoginId = auth.getName();      //id
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
         responseDtoMono.subscribe(value -> {
-            if (value.getErrorMessage() == ""){
+            if ((value.getErrorMessage()).equals("")){
                 //api가 성공적으로 동작한 경우
                 //성공 확인 후 토큰 1개 소모
-                principalDetailsService.useToken(memberLoginId);
+                principalDetailsService.updateTokenSumAndRefreshTime(member);
+                principalDetailsService.useToken(member);
             }
         });
 
@@ -131,11 +136,13 @@ public class ClaudeController {
         }
 
         String memberLoginId = auth.getName();      //id
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
         responseDtoMono.subscribe(value -> {
-            if (value.getErrorMessage() == ""){
+            if ((value.getErrorMessage()).equals("")){
                 //api가 성공적으로 동작한 경우
-                //성공 확인 후 토큰 1개 소모
-                principalDetailsService.useToken(memberLoginId);
+                //토큰 소모 or 갱신, 갱신 시간 수정
+                principalDetailsService.updateTokenSumAndRefreshTime(member);
+                principalDetailsService.useToken(member);
             }
         });
 

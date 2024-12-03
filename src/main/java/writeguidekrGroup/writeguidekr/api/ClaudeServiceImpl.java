@@ -10,8 +10,10 @@ import reactor.core.publisher.Mono;
 import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
 import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class ClaudeServiceImpl implements ClaudeService {
     private final ClaudeConfig claudeConfig;
 
     private String modelVersion = "claude-3-haiku-20240307";
+//    private String modelVersion = "claude-3-5-haiku-20241022";
     private int maxTokens = 1000;
 
 
@@ -50,6 +53,11 @@ public class ClaudeServiceImpl implements ClaudeService {
                     //데이터 형변환
                     System.out.println("mapping");
                     return formatIntoResponseDto(false, data);
+                })
+                .timeout(Duration.ofSeconds(10))
+                .doOnError(TimeoutException.class, e -> {
+                    //타임아웃 에러 단순 확인용, 이 함수로 값 변경은 불가
+                    System.out.println("api 요청 시간 초과");
                 })
                 .onErrorResume(error -> {
                     System.out.println("Claude Api Error: "+ error.getMessage());
@@ -120,6 +128,11 @@ public class ClaudeServiceImpl implements ClaudeService {
 //                .onStatus(status -> status.is4xxClientError(), clientResponse -> Mono.just(new ClaudeClientException(clientResponse)))
 //                .onStatus(status -> status.is5xxServerError(), clientResponse -> Mono.just(new ClaudeServerException()))
                 .bodyToMono(ClaudeResponseApiDto.class)
+                .timeout(Duration.ofSeconds(10))
+                .doOnError(TimeoutException.class, e -> {
+                    //타임아웃 에러 단순 확인용, 이 함수로 값 변경은 불가
+                    System.out.println("api 요청 시간 초과");
+                })
                 .onErrorResume(error -> {
                     System.out.println("Claude Api Error: "+ error.getMessage());
                     return Mono.just(ClaudeResponseApiDto.getClaudeErrorDto(error.getMessage()));

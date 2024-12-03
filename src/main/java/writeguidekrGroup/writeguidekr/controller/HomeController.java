@@ -36,45 +36,49 @@ public class HomeController {
 //    }
 
 
-    @GetMapping("/nickname")
-    @ResponseBody
-    public ResponseEntity<?> redirectLogout(Authentication auth){
-        if (auth == null || !auth.isAuthenticated()) {
-            //로그아웃된 상황
-            return ResponseEntity.ok().body("non-member");
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
-        }
-        String memberLoginId = auth.getName();      //id
-        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+//    @GetMapping("/nickname")
+//    @ResponseBody
+//    public ResponseEntity<?> redirectLogout(Authentication auth){
+//        if (auth == null || !auth.isAuthenticated()) {
+//            //로그아웃된 상황
+//            return ResponseEntity.ok().body("non-member");
+////            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
+//        }
+//        String memberLoginId = auth.getName();      //id
+//        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+//
+//        // 사용자 정보 반환
+//        return ResponseEntity.ok().body(member.getNickname());
+//    }
 
-        // 사용자 정보 반환
-        return ResponseEntity.ok().body(member.getNickname());
-    }
-
-    @GetMapping("/token-sum")
-    @ResponseBody
-    public ResponseEntity<?> getTokenSum(Authentication auth){
-        if (auth == null || !auth.isAuthenticated()) {
-            //로그아웃된 상황
-            return ResponseEntity.ok().body("non-member");
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
-        }
-        String memberLoginId = auth.getName();      //id
-        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
-
-        return ResponseEntity.ok().body(member.getTokenSum());
-    }
+//    @GetMapping("/token-sum")
+//    @ResponseBody
+//    public ResponseEntity<?> getTokenSum(Authentication auth){
+//        if (auth == null || !auth.isAuthenticated()) {
+//            //로그아웃된 상황
+//            return ResponseEntity.ok().body("non-member");
+////            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");    //401 출력
+//        }
+//        String memberLoginId = auth.getName();      //id
+//        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+//
+//        return ResponseEntity.ok().body(member.getTokenSum());
+//    }
 
     // 단순 회원 정보 갱신을 목표로 하는 함수
     // 토큰 개수, 토큰시간 갱신, 로그인여부, 이름,
-    @GetMapping("/account")
+    @GetMapping("/member-account")
     @ResponseBody
     public ResponseEntity<?> getAccount(Authentication auth){
         AccountDto dto;
         if (auth == null || !auth.isAuthenticated()) {
             //로그아웃된 상황
             dto = AccountDto.builder()
-                    .userName("")
+                    .loginId("")
+                    .userName("NON_MEMBER")
+                    .tokenSum(0)
+                    .nextTokenRefreshTime("00:00")
+                    .provider("")
                     .build();
             return ResponseEntity.ok().body(dto);
 //            return ResponseEntity.ok().body("non-member");
@@ -87,10 +91,15 @@ public class HomeController {
         if (member == null) {
             //비로그인인 경우
             dto = AccountDto.builder()
-                    .userName("")
+                    .loginId("")
+                    .userName("NON_MEMBER")
+                    .tokenSum(0)
+                    .nextTokenRefreshTime("00:00")
+                    .provider("")
                     .build();
         } else {
             dto = AccountDto.builder()
+                    .loginId(member.getLoginId())
                     .userName(member.getNickname())
                     .tokenSum(member.getTokenSum())
                     .nextTokenRefreshTime(member.toStringNextTokenRefreshTime())
@@ -99,5 +108,27 @@ public class HomeController {
         }
 
         return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping("/member")
+    public ResponseEntity<?> deleteMember(Authentication auth){
+        AccountDto dto;
+        if (auth == null || !auth.isAuthenticated()) {
+            //로그아웃된 상황
+
+            return ResponseEntity.ok().body("NON_MEMBER");
+//            return ResponseEntity.ok().body("non-member");
+        }
+        String memberLoginId = auth.getName();      //id
+        Member member = principalDetailsService.loadMemberByLoginId(memberLoginId);
+
+        if (member == null) {
+            //비로그인인 경우
+            return ResponseEntity.ok().body("NON_MEMBER");
+        } else {
+            principalDetailsService.deleteMember(member);
+            return ResponseEntity.ok().body("success");
+        }
+
     }
 }

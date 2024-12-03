@@ -11,6 +11,7 @@ public class ClaudeConfig {
     @Getter
     private WebClient webClient;
 
+
     //@Value 관련 문제
     //생성자 생성 후 @Value가 작업을 시작하기 때문에...
     public ClaudeConfig(@Value("${claude-api.api-key}") String secretKey,

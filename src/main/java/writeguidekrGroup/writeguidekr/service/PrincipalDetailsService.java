@@ -38,6 +38,11 @@ public class PrincipalDetailsService implements UserDetailsService{
         return member;
     }
 
+    @Transactional
+    public void deleteMember(Member member){
+        memberRepository.delete(member);
+    }
+
     public boolean hasToken(Member member) {
         if (member.getTokenSum() > 0) {
             return true;
@@ -63,5 +68,7 @@ public class PrincipalDetailsService implements UserDetailsService{
         member.adjustTokenSumAndRefreshTime(UPDATE_TOKEN_COUNT, PLUS_HOUR);
         memberRepository.save(member);
     }
+
+
 
 }

@@ -50,15 +50,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())       //세션상태 유지할때 CSRF보호를 위한 것, stateless API인 경우(쿠키 대신 토큰을 사용하는 경우) 비활성화(코드를 쓰는게 비활성화하는것임)(보안을 위해 개발중일때만 해당코드 활성화하기)
-                .authorizeHttpRequests(authorize -> authorize
+                //!api 사용으로 authorizeHttpRequests은 사용하지 않고 컨트롤러에서 관리하기로 결정
+//                .authorizeHttpRequests(authorize -> authorize
                                 //(인증 여부 확인) 로그인된 사용자만 접근 가능하도록 함
 //                .requestMatchers(LOGIN_TYPE+"/info").authenticated()
-                                .requestMatchers("/product/form/**").authenticated()
+//                                .requestMatchers("/product/form/**").authenticated()
+//                                .requestMatchers("/account").authenticated()
                                 //(인가 여부 확인) UserRole이 ADMIN인 사용자만 접근 가능하도록 함
 //                .requestMatchers(LOGIN_TYPE+"/admin/**").hasAuthority(UserRole.ADMIN.name())
                                 //위에서 정의된 경로 외의 것은 모두 접근 가능
-                                .anyRequest().permitAll()
-                )
+//                                .anyRequest().permitAll()
+//                )
                 //Oauth 로그인
                 .oauth2Login(oauth2 -> oauth2
                                 .loginPage("/login-page") // 로그인 접근 경로. 이 경로로 get요청할 경우 naver버튼,google버튼이 있는 페이지를 출력한다

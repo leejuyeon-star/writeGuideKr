@@ -10,10 +10,12 @@ import '../styles/Home.css'
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 // import { useBlocker, useNavigate} from "react-router-dom";       // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140 
-import { GetMemberAccount } from "../api/auth";          
+import { GetMemberAccount } from "../api/auth";         
+import { useNavigate } from "react-router-dom"; 
 
 
 function Home() {
+    const navigate = useNavigate(); // useNavigate를 컴포넌트 내부에서 호출
     //
     //전역변수
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
@@ -42,15 +44,15 @@ function Home() {
         async function a() {
             console.log("Home useEffect");
             const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            if (localStorage.getItem("userName") === "") {
-                //비회원인 경우
-                setIsMember(false);
-            } else {
-                //회원인 경우
-                // setTokenSum(memberAccount.tokenSum);
+            console.log(_memberAccount)
+            if (_memberAccount.userName === "NON_MEMBER") {
                 setMemberAccount(_memberAccount);
-                setIsMember(true);
+                return;
             }
+            //회원인 경우
+            // setTokenSum(memberAccount.tokenSum);
+            setMemberAccount(_memberAccount);
+            setIsMember(true);
         }
         a();
     }, [answerState]);

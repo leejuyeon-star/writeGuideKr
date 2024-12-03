@@ -161,7 +161,7 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
                             <div className="aa-textarea-section">
                                 <div className="aa-error-container switch1">
                                     <div className="aa-error-header">
-                                        <img src={warningImgUrl} className="image"/> 오류 <img src={warningImgUrl} className="image"/>
+                                        <img src={warningImgUrl} className="image"/> 실패 <img src={warningImgUrl} className="image"/>
                                     </div>
                                     {responseErrorMsg}
                                 </div>
@@ -170,7 +170,7 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
                             <div className="aa-textarea-section">
                                 <div className="aa-error-container switch2">
                                     <div className="aa-error-header">
-                                        <img src={warningImgUrl} className="image"/> 오류 <img src={warningImgUrl} className="image"/>
+                                        <img src={warningImgUrl} className="image"/> 실패 <img src={warningImgUrl} className="image"/>
                                     </div>
                                     {responseErrorMsg}
                                 </div>

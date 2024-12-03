@@ -13,10 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 //토큰 개수, 토큰시간 갱신, 로그인여부, 이름,
 public class AccountDto {
+    private String loginId;
     private String userName;
     private int tokenSum;
-    private String nextTokenRefreshTime = null;
+    private String nextTokenRefreshTime;
     private String provider;    //OAuth 로그인 종류
-
-
 }

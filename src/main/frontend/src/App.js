@@ -27,6 +27,7 @@ import Privacy from "./pages/Privacy";
 import MasterHeader from './components/MasterHeader';
 import MasterFooter from './components/MasterFooter';
 import Account from './pages/Account';
+import NetworkError from './pages/NetworkError';
 
 // 데이터 라우터 정의
 const router = createBrowserRouter([
@@ -67,6 +68,15 @@ const router = createBrowserRouter([
     <>
       <MasterHeader />
       <Account />
+      <MasterFooter />
+    </>,
+  },
+  {
+    path: "/network-error",
+    element: 
+    <>
+      <MasterHeader />
+      <NetworkError />
       <MasterFooter />
     </>,
   },

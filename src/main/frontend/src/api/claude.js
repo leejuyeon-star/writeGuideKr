@@ -26,7 +26,7 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
 
     const extractSentences = (wholeTxt, targetIdx) => {        //단어가 들어간 문장 하나와 그 앞 문장만 리턴
         if (targetIdx[1] - targetIdx[0] >= 15) {
-            return [false, "문장이 아닌 단어구를 선택해주세요"];
+            return [false, `문장이 아닌 어구를 드래그해주세요`];
         }
 
         const wholeTextWithoutEnter = txt.replace(/\n/g, ""); // \n을 모두 제거
@@ -71,10 +71,10 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
         const foundSentence = sentences[foundSentenceIndex]
 
         if (foundSentenceIndex === -1) {
-            return [false, "해당 단어가 포함된 문장이 없습니다."];
+            return [false, `해당 단어가 포함된 문장이 없습니다.`];
         }
         if (foundSentence.length > 140) {
-            return [false, "문장의 길이가 너무 길거나 문장을 구분할 수 없습니다. \n .!? 표시를 하여 문장을 구분해주세요."];
+            return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
         }
 
         if (foundSentenceIndex === 0) {    
@@ -85,7 +85,7 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
             //찾은 문장이 두번째 문장 이상인 경우
             const beforeSentence = sentences[foundSentenceIndex-1];
             if (beforeSentence.length > 140) {
-                return [false, "문장의 길이가 너무 길거나 문장을 구분할 수 없습니다. \n .!? 표시를 하여 문장을 구분해주세요."]
+                return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
             }
             return [true, `${beforeSentence} ${foundSentence}`];
             // return [true, `${beforeSentence} ${foundSentence}`, foundWordIdx];
@@ -166,7 +166,7 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
     } else {
         //사용자 잘못인 경우
         // return [false, targetSentence];
-        return formatJsonIntoAnswerList(false, "잘못된 요청입니다. \n 문장과 단어를 확인해주세요.");
+        return {isSucceed: false, msg: _targetSentence};
     }
     
 }
@@ -193,7 +193,7 @@ export const CallAfterSentence = async (txt) => {
 
     const extractSentences = (wholeTxt) => {        //맨끝 문장 하나와 그 앞 문장만 리턴
         console.log(wholeTxt);
-        if (wholeTxt.length <= 15) {return [false, "문장이 너무 짧습니다."];}
+        if (wholeTxt.length <= 15) {return [false, `문장이 너무 짧습니다.`];}
         const wholeTextWithoutEnter = txt.replace(/\n/g, ""); // \n을 모두 제거
         // const wholeTextWithoutEnter = wholeTxt.replace(/\n/g, ""); // \n을 모두 제거
         // .한개 이상 or ! or ? 뒤가 공백인 것을 기준으로 구분 / 숫자. .숫자 는 제외 
@@ -206,6 +206,9 @@ export const CallAfterSentence = async (txt) => {
 
         
         if (sentences.length === 1){
+            if (sentences.length > 140) {
+                return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
+            }
             return [true, wholeTxt];
         } else {
             const targetSentence = `${sentences[(sentences.length -2)]}${sentences[(sentences.length-1)]}`;
@@ -214,6 +217,9 @@ export const CallAfterSentence = async (txt) => {
             console.log("targetSentence[-2]");
             console.log(sentences[(sentences.length -2)]);
             console.log("targetSentence3");
+            if (targetSentence.length > 140) {
+                return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
+            }
             return [true, targetSentence];
         }
 
@@ -258,7 +264,7 @@ export const CallAfterSentence = async (txt) => {
     } else {
         //사용자 잘못인 경우
         // return [false, targetSentence];
-        return formatJsonIntoAnswerList(false, _targetSentence);
+        return {isSucceed: false, msg: _targetSentence};
     }
     
 }

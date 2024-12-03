@@ -29,6 +29,7 @@ public class Member {
     private String password;
     private String nickname;
     private int tokenSum;
+    @Builder.Default
     private LocalDateTime nextTokenRefreshTime = null;
 
     private MemberRole role;

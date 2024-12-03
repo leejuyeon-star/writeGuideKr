@@ -1,8 +1,10 @@
 import { useState, useEffect, delay, useContext } from "react";
-import {useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import React from "react";
 import '../styles/Account.css'
-import { GetMemberAccount } from "../api/auth";     
+import { GetMemberAccount, Logout } from "../api/auth";     
+import { DeleteMember } from "../api/auth"
+import { useBlocker } from "react-router-dom";
 
 function Account() {
     const navigate = useNavigate();
@@ -18,23 +20,64 @@ function Account() {
     useEffect(() => {
         async function a() {
             console.log("Home useEffect");
-            const memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            if (localStorage.getItem("userName") === "") {
-                //비회원인 경우
-                navigate('/login-page');
-            } else {
-                //회원인 경우
-                setUserName(memberAccount.userName);
-                setTokenSum(memberAccount.tokenSum);
-                setNextTokenRefreshTime(memberAccount.nextTokenRefreshTime);
-                setProvider(memberAccount.provider);
+            const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
+            console.log(_memberAccount)
+            if (_memberAccount === "NETWORK_ERROR") {
+                navigate("/network-error")
+                return;
             }
+            if (_memberAccount.userName === "NON_MEMBER") {
+                navigate('/login-page');
+                return;
+            }
+            setUserName(_memberAccount.userName);
+            setTokenSum(_memberAccount.tokenSum);
+            setNextTokenRefreshTime(_memberAccount.nextTokenRefreshTime);
+            setProvider(_memberAccount.provider);
         }
         a();
     }, []);
 
-    const onClickDeleteAccount = {
-        //진짜 하시겠씁니까?물어보고 한다고 하면 진행하기
+
+
+    // =====라우터를 통한 이동시 알림창 띄우기 =====//
+    const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+            return currentLocation.pathname !== nextLocation.pathname;
+        //  return when && currentLocation.pathname !== nextLocation.pathname
+        }
+    );
+
+    useEffect(() => {
+        if (blocker.state !== "blocked") return;
+        if (window.confirm(`사이트를 벗어나시겠습니까? \n변경사항이 저장되지 않을 수 있습니다.`)) {
+            blocker.proceed();
+        } else {
+            blocker.reset();
+        }
+    }, [blocker.state]);
+
+    // ===========================================//
+
+    const onClickDeleteAccount = async () => {
+        if(window.confirm("정말 탈퇴하시겠습니까? 관련 데이터가 모두 사라집니다.")) {
+            //확인
+            const response = await DeleteMember();
+            if (response === "NETWORK_ERROR") {
+                navigate("/network-error");
+                return;
+            }
+            if (response === "NON_MEMBER") {
+                navigate("/login-page");
+                return;
+            }
+            await Logout();
+            navigate("/login-page");
+            return;    
+        }
+        else {
+            //취소
+        }
+    
 
     }
 

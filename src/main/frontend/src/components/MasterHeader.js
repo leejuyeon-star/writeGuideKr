@@ -1,35 +1,45 @@
 import PropTypes from "prop-types";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import '../styles/MasterHeader.css'
 import { Transition } from 'react-transition-group';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import { GetMemberAccount } from "../api/auth";
+import { GetMemberAccount, Logout } from "../api/auth";
 import { sortedUniq } from "lodash";
+import { MemberAccountContext } from '../ContextProvider';
+import { useNavigate } from "react-router-dom";
 
 
 function MasterHeader() {
-    // const navigate = useNavigate(); // useNavigate를 컴포넌트 내부에서 호출
+    const navigate = useNavigate(); // useNavigate를 컴포넌트 내부에서 호출
     const [isMember, setIsMember] = useState(false);
-
+    const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
 
     useEffect(() => {
-        console.log("갱신", isMember);
-    }, [isMember]);
+        if (memberAccount.userName === "NON_MEMBER") {
+            setIsMember(false);
+        } else {
+            setIsMember(true);
+        }
+    }, [memberAccount]);
 
     //회원/게스트 여부 확인
     useEffect(() => {
         async function a() {
             console.log("Home useEffect");
-            const memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            if (localStorage.getItem("userName") === "") {
+            const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
+            console.log(_memberAccount)
+            if (_memberAccount.userName === "NON_MEMBER") {
                 //비회원인 경우
-                console.log("MasterHeader 비회원")
+                console.log("MasterHeader 비회원");
                 setIsMember(false);
-
+                setMemberAccount(memberAccount);
+                return;
+                
             } else {
                 //회원인 경우
-                console.log("MasterHeader 회원")
+                console.log("MasterHeader 회원");
+                setMemberAccount(memberAccount);
                 setIsMember(true);
             }
         }
@@ -81,16 +91,7 @@ function MasterHeader() {
     async function onLogout() {
         // localStorage.setItem("nickname", "");
         // setNickname("");
-        await handleLogout();
-    }
-
-    async function handleLogout() {
-        const a = await axios.post('/logout', 
-        // await axios.post('/api/logout', 
-            
-            { "Content-Type": "application/json", withCredentials: true }   //withCredentials: true: 브라우저에서 세션 쿠키(JSESSIONID)를 함께 전송
-        );
-        window.location.href = '/login-page';  // 해당 URL로 리다이렉트. 백엔드 서버에서도 리다이렉트하지만 무슨 이윤지 몰라도 프론트에서도 리다이렉트해줘야함
+        await Logout();
     }
 
 

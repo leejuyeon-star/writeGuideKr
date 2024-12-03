@@ -406,7 +406,17 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     }
     //======================================================//
 
+    const localSaveContent = () => {
+    //     //임시저장해야함??????
+    //     if (memberAccount.loginId) {
+            
+    //     }
+    //     localStorage.setItem("content id명", contentRef.current.innerText);
+    }
 
+    // const localLoadContent = () => {
+    //     localStorage.getItem("content id명");
+    // }
 
 
 
@@ -433,18 +443,18 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
                         <button className="mn-copy-button" onClick={onClickCopyButton} tooltip="복사하기" flow="up">
                             <img src={copyImgUrl} className="mn-copy-img"/>
                         </button>
-                        <div className="mn-tokenSum" tooltip="ai 요청 가능 횟수" flow="up">{memberAccount.tokenSum} 토큰</div>
+                        <div className="mn-tokenSum" tooltip="ai 요청 가능 횟수" flow="up">{memberAccount.tokenSum ? memberAccount.tokenSum : 0} 토큰</div>
                         {memberAccount.tokenSum != "0" ? 
                             null
                         :
-                            <div className="mn-tokenSum-nextTokenRefreshTime">{memberAccount.nextTokenRefreshTime} 이후 토큰 충전됨</div>
+                            <div className="mn-tokenSum-nextTokenRefreshTime">{memberAccount.nextTokenRefreshTime ? memberAccount.nextTokenRefreshTime : "00:00"} 이후 토큰 충전됨</div>
                         }
                         {/* <button className="mn-share-button" onClick={onClickShareButton} tooltip="공유하기" flow="up"> */}
                             {/* <img src={shareImgUrl} className="mn-share-img"/> */}
                         {/* </button> */}
                     </div>
                     <div className="mn-sub-header2">
-                        <button className="mn-local-save-button">임시저장</button>
+                        {/* <button className="mn-local-save-button" onClick={localSaveContent}>임시저장</button> */}
                         {/* <div>{isSaved ? `자동 저장됨`: ``}</div> */}
                     </div>
                 </header>

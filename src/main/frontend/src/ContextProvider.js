@@ -28,7 +28,7 @@ export function ContextProvider({ children }) {
       actions: { setAnswerDetails},  
     };
 
-    const [memberAccount, setMemberAccount] = useState({});
+    const [memberAccount, setMemberAccount] = useState({loginId: "", userName: 'NON_MEMBER', tokenSum: 0, nextTokenRefreshTime: '00:00', provider: ''});
     const memberAccountValue = {
       state: { memberAccount },
       actions: { setMemberAccount },  

@@ -59,23 +59,40 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
 
     //! 처음 실행시 글 넣어주기
     useEffect(() => {
-        console.log("야야야야ㅑㅇ요요");
-        contentRef.current.innerText = `
-         글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
-        \n
-        \n
-        ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. (<- '알맞는'을 드래그해보세요.)
-        \n
-        \n
-        \n
-        지금 바로 로그인하여 다양한 주제로 글을 써보세요.
-        `
+        const element = contentRef.current;
+        contentRef.current.focus();
+        console.log(contentRef.current);
+        contentRef.current.innerText = "";
+        contentRef.current.innerText = 
+        ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭`;
+         console.log(contentRef.current.innerText);
+         //! 커서 노트 클릭
+
+        //=======커서를 텍스트의 맨 끝으로 이동==========
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(element);
+        range.collapse(false); // false로 설정하면 커서를 끝으로 위치
+        selection.removeAllRanges();
+        selection.addRange(range);
+        //===========================================
+
+        //커서 버튼 활성화
+        onMoveCurosr();
+        // contentRef.current.innerText = 
+        // ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
+        
+        
+        //  ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. (<- '알맞는'을 드래그해보세요.)
+        
+        
+        
+        //  지금 바로 로그인하여 다양한 주제로 글을 써보세요.`;
+         
     }, [])
 
-    //! 커서 노트 클릭
-    useEffect(() => {
-        contentRef.current.focus();
-    }, []);
+
+
 
     //기본 내용으로 돌아가기
     useEffect(() => {
@@ -257,6 +274,12 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         const cursorIdx = range.endOffset; // 선택한 텍스트의 시작 노드
         const rect = range.getBoundingClientRect();
 
+        console.log("selection");
+        console.log(selection);
+        console.log("range");
+        console.log(range);
+        console.log("rect");
+        console.log(rect);
         
 
         // 버튼의 위치 설정 (textarea 안에서)
@@ -274,15 +297,19 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         const cursorEndOffset = range.endOffset; // 선택한 텍스트의 시작 노드
         const cursorStartOffset = range.startOffset; // 선택한 텍스트의 시작 노드
         const dragCount = cursorEndOffset - cursorStartOffset;
-        if (cursorEndOffset <= 0) {               //처음 노트 클릭시 버튼 미생성
-            setIsCursorButtonOn(false);
-            setIsDraggedButtonOn(false);
-        } else {
+        // if (cursorEndOffset <= 0) {               //처음 노트 클릭시 버튼 미생성
+            // setIsCursorButtonOn(false);
+            // setIsDraggedButtonOn(false);
+        // } else {
             if ( dragCount > 0) {
                 //드래그 한 경우
                 //커서버튼 지우기
                 setIsCursorButtonOn(false);
+                setIsDraggedButtonOn(false);
                 if (isValidSelectedText(selection)) {
+                    //! 드래그한 내용이 "알맞는" 이 맞는지 확인
+                    const selectedText = findDraggedText(selection)
+                    if (selectedText !== "알맞는") return;
                     //3글자 이상인 경우
                     //드래그버튼 생성
                     relocateDraggedButton(selection);
@@ -299,7 +326,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                 relocateCursorButton(selection);
                 setIsCursorButtonOn(true);
             }
-        }
+        // }
     };
 
     //단어 ai 버튼 클릭시
@@ -330,6 +357,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
 
 
     const onClickCopyButton = async (event) => {
+
         try {
             hideTooltip(event);
             await navigator.clipboard.writeText(content);
@@ -490,7 +518,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                 : 
                     <div 
                         ref={contentRef}
-                        //! contentEditable
+                        contentEditable
                         className="mn-textarea" 
                         // value={content}
                         onInput={onInput} 

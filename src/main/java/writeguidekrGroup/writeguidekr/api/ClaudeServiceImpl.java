@@ -33,7 +33,6 @@ public class ClaudeServiceImpl implements ClaudeService {
 
         ClaudeRequestApiDto request = ClaudeRequestApiDto.builder()
                 .model(modelVersion)
-//                .system("")
                 .system(system)
                 .stop_sequences(stopSequences)
                 .max_tokens(maxTokens)

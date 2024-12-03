@@ -43,16 +43,23 @@
 }
 
 .login-title-logo{
-    background-color: black;
-    width: 100px;
-    height: 100px;
-    align-items: center;
+    /* background-color: black; */
+    /* width: 100px; */
+    /* height: 100px; */
+    align-items: center;   
+    display: flex;
+    justify-content: center;
+}
+
+.login-pencil_black_img {
+    background-color: rgba(255, 255, 255, 0);
+    
 }
 
 .login-title {
     font-size: 32px;
     /* font: "Söhne"; */
-    margin: 24px 0 0;
+    margin: 20px 0 0;
     color: #2d333a;
     width: 320px;
     text-align: center;

@@ -12,13 +12,16 @@ function Login() {
     // const googleLoginImg = process.env.PUBLIC_URL + "/images/copy.png";
     const naverLogoImg = process.env.PUBLIC_URL + "/images/naver_logo.png";
     const googleLogoImg = process.env.PUBLIC_URL + "/images/google_logo.png";
+    const pencilBlackImg = process.env.PUBLIC_URL + "/images/pencil_black.png";
 
     return(
         <div>
             <div className="login-main-container">
             <section className="login-content-wrapper">
                 <section className="login-title-wrapper">
-                    <div className="login-title-logo"></div>
+                    <div className="login-title-logo">
+                        <img src={pencilBlackImg} className="login-pencil_black_img"/>
+                    </div>
                     <h1 className="login-title">로그인</h1>
                 </section>
                 <div className="login-devider"></div>

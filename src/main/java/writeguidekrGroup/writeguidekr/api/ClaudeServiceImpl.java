@@ -33,13 +33,15 @@ public class ClaudeServiceImpl implements ClaudeService {
 
         ClaudeRequestApiDto request = ClaudeRequestApiDto.builder()
                 .model(modelVersion)
+//                .system("")
                 .system(system)
                 .stop_sequences(stopSequences)
                 .max_tokens(maxTokens)
                 .build();
 
-        request.setMessages(prompt, "{");       //처음에 json 형식이 아닌 다른 서론은 안나오도록 하기
-
+        request.setMessages("\""+prompt+"\"", "{");       //처음에 json 형식이 아닌 다른 서론은 안나오도록 하기
+        System.out.println("yap");
+        System.out.println(system+" \""+prompt+"\"");
         System.out.println("request");
         System.out.println(request);
 

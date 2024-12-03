@@ -11,7 +11,7 @@ import { useBeforeunload } from "react-beforeunload";       //새로고침 or �
 import { useBlocker } from "react-router-dom";              // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140
 import { onKeyboardEvent } from "../../modules/onKeyboardEvent";    //단축키 감지
 
-function MainNote({ onRequestedHelp, changedContentInfo }) {    
+function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {    
     const [changedContent, setChangedContent] = useState("");
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
     const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
@@ -34,32 +34,48 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
 
     const [content, setContent] = useState("");
     const contentRef = useRef();
-
-
     
     // 새로고침 or 뒤로가기 시 알림창 띄우기
-    useBeforeunload((event) => {event.preventDefault()});
+    //! useBeforeunload((event) => {event.preventDefault()});
 
     // =====라우터를 통한 이동시 알림창 띄우기 =====//
-    const blocker = useBlocker(({ currentLocation, nextLocation }) => {
-            return currentLocation.pathname !== nextLocation.pathname;
-        //  return when && currentLocation.pathname !== nextLocation.pathname
-        }
-    );
+    //! const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    //         return currentLocation.pathname !== nextLocation.pathname;
+    //     //  return when && currentLocation.pathname !== nextLocation.pathname
+    //     }
+    // );
 
-    useEffect(() => {
-        if (blocker.state !== "blocked") return;
-        if (window.confirm(`사이트를 벗어나시겠습니까? \n변경사항이 저장되지 않을 수 있습니다.`)) {
-            blocker.proceed();
-        } else {
-            blocker.reset();
-        }
-    }, [blocker.state]);
+    // useEffect(() => {
+    //     if (blocker.state !== "blocked") return;
+    //     if (window.confirm(`사이트를 벗어나시겠습니까? \n변경사항이 저장되지 않을 수 있습니다.`)) {
+    //         blocker.proceed();
+    //     } else {
+    //         blocker.reset();
+    //     }
+    // }, [blocker.state]);
 
     // ===========================================//
 
 
+    //! 처음 실행시 글 넣어주기
+    useEffect(() => {
+        console.log("야야야야ㅑㅇ요요");
+        contentRef.current.innerText = `
+         글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
+        \n
+        \n
+        ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. (<- '알맞는'을 드래그해보세요.)
+        \n
+        \n
+        \n
+        지금 바로 로그인하여 다양한 주제로 글을 써보세요.
+        `
+    }, [])
 
+    //! 커서 노트 클릭
+    useEffect(() => {
+        contentRef.current.focus();
+    }, []);
 
     //기본 내용으로 돌아가기
     useEffect(() => {
@@ -241,9 +257,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
         const cursorIdx = range.endOffset; // 선택한 텍스트의 시작 노드
         const rect = range.getBoundingClientRect();
 
-        console.log("로로");
-        console.log(rect.bottom + window.scrollY);
-        console.log(rect.right + window.scrollX);
+        
 
         // 버튼의 위치 설정 (textarea 안에서)
         setCursorButtonPosition({
@@ -476,7 +490,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
                 : 
                     <div 
                         ref={contentRef}
-                        contentEditable
+                        //! contentEditable
                         className="mn-textarea" 
                         // value={content}
                         onInput={onInput} 
@@ -527,7 +541,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
 }
 
 
-export default MainNote;
+export default MainNoteForGuest;
 
 
 

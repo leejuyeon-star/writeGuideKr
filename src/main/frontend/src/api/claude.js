@@ -73,6 +73,7 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
         if (foundSentenceIndex === -1) {
             return [false, `해당 단어가 포함된 문장이 없습니다.`];
         }
+        
         if (foundSentence.length > 140) {
             return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
         }

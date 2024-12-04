@@ -14,6 +14,8 @@ import writeguidekrGroup.writeguidekr.domain.dto.claude.ClaudeResponseDto;
 import writeguidekrGroup.writeguidekr.domain.entity.Member;
 import writeguidekrGroup.writeguidekr.service.PrincipalDetailsService;
 
+import java.time.Duration;
+
 @RestController             //이 안에 @ResponseBody 포함됨
 @RequiredArgsConstructor
 //@RequestMapping("/api/claude")        //이걸 설정하면 비동기가 아닌 동기적으로 동작함
@@ -57,15 +59,11 @@ public class ClaudeController {
 
 
         String targetSentence = apiAfterSentenceRequestDto.getTargetSentence();
-        System.out.println("apiRecommendAfterSentenceRequest");
-
-        System.out.println("apiAfterSentenceRequestDto");
-        System.out.println(apiAfterSentenceRequestDto);
-        System.out.println("targetSentence");
-        System.out.println(targetSentence);
 
         Mono<ClaudeResponseDto> responseDtoMono = claudeService.sendApiRequestWithJson(
-                "Suggest 3 Korean phrases that naturally follow this sentence. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
+//                "Suggest 3 Korean phrases that make an addition this last phrase. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
+                "suggest 3 Korean phrases to complete this sentence. The phrases should be under 10 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
+//                "Suggest 3 Korean phrases that naturally follow this last phrase. The phrases should be under 6 words in JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}",
                 targetSentence
         );
 
@@ -105,7 +103,7 @@ public class ClaudeController {
 
 
     @PostMapping("/api/claude/betweenphrase")
-    public Mono<ClaudeResponseDto> apiRecommendPhraseRequest(Authentication auth, @RequestBody ApiBetweenPhraseRequestDto apiBetweenPhraseRequestDto) {
+    public Mono<ClaudeResponseDto> apiRecommendBetweenPhraseRequest(Authentication auth, @RequestBody ApiBetweenPhraseRequestDto apiBetweenPhraseRequestDto) {
 
         Mono<ClaudeResponseDto> errorResponse = isMemberQualified(auth);
         if (errorResponse != null) return errorResponse;
@@ -114,20 +112,17 @@ public class ClaudeController {
         String targetWord = apiBetweenPhraseRequestDto.getTargetWord();
         String targetSentence = apiBetweenPhraseRequestDto.getTargetSentence();
         String targetBeforeWord = apiBetweenPhraseRequestDto.getTargetBeforeWord();
-        System.out.println(String.format("%s %s", String.format("Replace '%s' that appears after '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}", targetWord, targetBeforeWord)
-        , targetSentence));
-        System.out.println("apiRecommendPhraseRequest");
+//        System.out.println(String.format("%s %s", String.format("Replace '%s' that appears after '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}", targetWord, targetBeforeWord)
+//        , targetSentence));
 
         Mono<ClaudeResponseDto> responseDtoMono;
         if (targetBeforeWord != null) {
             //중복된 단어가 존재하는 경우
-            System.out.println("중복된 단어가 존재하는 경우");
             responseDtoMono = claudeService.sendApiRequestWithJson(
                     String.format("Replace '%s' that appears after '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}", targetWord, targetBeforeWord),
                     targetSentence
             );
         } else {
-            System.out.println("중복된 단어 존재하지 않는 경우");
             //중복된 단어 존재하지 않는 경우
             responseDtoMono = claudeService.sendApiRequestWithJson(
                     String.format("Replace '%s' with 3 alternative phrases in the following sentence. Follow JSON format: {\"fir\":\"first\",\"sec\":\"second\",\"thir\":\"third\"}", targetWord),
@@ -145,8 +140,6 @@ public class ClaudeController {
                 principalDetailsService.useToken(member);
             }
         });
-
-
 //        responseApiDtoMono.subscribe(
 //                (data) -> System.out.println("( 정상작동 or api에러 )Index : " + data),   //여기서 ClaudeResponseApiDto를 ClaudeResponseDto로 바꿔
 //                (error) -> System.err.println("백엔드 Error : " + error.getMessage())
@@ -172,5 +165,48 @@ public class ClaudeController {
 
         return responseDtoMono;
     }
+
+
+
+
+    @GetMapping("/api/claude/tutorial/aftersentence")
+    public Mono<ClaudeResponseDto> afterSentenceRequestForTutorial() {
+
+//        Mono<ClaudeResponseDto> errorResponse = isMemberQualified(auth);
+//        if (errorResponse != null) return errorResponse;
+
+
+//        String targetSentence = apiAfterSentenceRequestDto.getTargetSentence();
+//        System.out.println("apiRecommendAfterSentenceRequest");
+
+//        System.out.println("apiAfterSentenceRequestDto");
+//        System.out.println(apiAfterSentenceRequestDto);
+//        System.out.println("targetSentence");
+//        System.out.println(targetSentence);
+        String firstResponse = "글쓰기 도움을 받으세요.";
+        String secondResponse = "주시면 감사하겠습니다.";
+        String thirdResponse = "시작하세요.";
+
+        Mono<ClaudeResponseDto> responseDtoMono =
+                Mono.just(claudeService.formatIntoResponseDto(firstResponse, secondResponse, thirdResponse))
+                    .delayElement(Duration.ofSeconds(2));
+
+        return responseDtoMono;
+    }
+
+    @GetMapping("/api/claude/tutorial/betweenphrase")
+    public Mono<ClaudeResponseDto> afterSentenceBetweenPhraseForTutorial() {
+
+        String firstResponse = "적절한";
+        String secondResponse = "걸맞는";
+        String thirdResponse = "어울리는";
+
+        Mono<ClaudeResponseDto> responseDtoMono =
+                Mono.just(claudeService.formatIntoResponseDto(firstResponse, secondResponse, thirdResponse))
+                        .delayElement(Duration.ofSeconds(2));
+
+        return responseDtoMono;
+    }
+
 }
 

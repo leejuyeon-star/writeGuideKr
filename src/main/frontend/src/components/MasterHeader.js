@@ -103,9 +103,9 @@ function MasterHeader() {
                 <Link to="/"  style={{ textDecoration: "none", color: "black"}}>
                     <h1 button className="mh-title-button">글잇다</h1>
                 </Link>
-                <Link to="/about"  style={{ textDecoration: "none", color: "black"}}>
+                {/* <Link to="/about"  style={{ textDecoration: "none", color: "black"}}>
                     <button className="mh-introduce-button">글잇다 소개</button>
-                </Link>
+                </Link> */}
             </div>
             <div className="mh-sub-container2">
                 {isMember ? 

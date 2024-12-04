@@ -51,7 +51,6 @@ public class Member {
         if (tokenSum > value) {
             return;
         }
-        System.out.println("token update:"+value+"token");
         tokenSum = value;
     }
 
@@ -76,10 +75,10 @@ public class Member {
         // 현재 날짜/시간
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(nextTokenRefreshTime)) {
-            System.out.println("have to update");
+//            System.out.println("have to update");
             return true;
         } else {
-            System.out.println("not have to update..");
+//            System.out.println("not have to update..");
             return false;
         }
     }
@@ -101,7 +100,7 @@ public class Member {
         LocalDateTime refreshTime = now.plusHours(plusHour);
 //        LocalDateTime refreshTime = now.plusSeconds(20);
 
-        System.out.println("refreshTime: " + refreshTime);
+//        System.out.println("refreshTime: " + refreshTime);
         nextTokenRefreshTime = refreshTime;
     }
 

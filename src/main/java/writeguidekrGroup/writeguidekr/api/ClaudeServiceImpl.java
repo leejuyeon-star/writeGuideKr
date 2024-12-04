@@ -2,6 +2,7 @@ package writeguidekrGroup.writeguidekr.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeRequestApiDto;
 import writeguidekrGroup.writeguidekr.api.dto.ClaudeResponseApiDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ClaudeServiceImpl implements ClaudeService {
     private final ClaudeConfig claudeConfig;
 
@@ -27,7 +29,6 @@ public class ClaudeServiceImpl implements ClaudeService {
 
     @Override
     public Mono<ClaudeResponseDto> sendApiRequestWithJson(String system, String prompt) {
-        System.out.println("sendApiRequestWithJson");
         ArrayList<String> stopSequences = new ArrayList<>();
         stopSequences.add("}");                             //마지막에 json 형식이 아닌 다른 서론은 안나오도록 하기
 
@@ -39,10 +40,6 @@ public class ClaudeServiceImpl implements ClaudeService {
                 .build();
 
         request.setMessages("\""+prompt+"\"", "{");       //처음에 json 형식이 아닌 다른 서론은 안나오도록 하기
-        System.out.println("yap");
-        System.out.println(system+" \""+prompt+"\"");
-        System.out.println("request");
-        System.out.println(request);
 
         return claudeConfig.getWebClient().post()
                 .bodyValue(request)
@@ -52,16 +49,15 @@ public class ClaudeServiceImpl implements ClaudeService {
                 .bodyToMono(ClaudeResponseApiDto.class)
                 .map(data -> {
                     //데이터 형변환
-                    System.out.println("mapping");
                     return formatIntoResponseDto(false, data);
                 })
                 .timeout(Duration.ofSeconds(10))
                 .doOnError(TimeoutException.class, e -> {
                     //타임아웃 에러 단순 확인용, 이 함수로 값 변경은 불가
-                    System.out.println("api 요청 시간 초과");
+                    log.warn("api 요청 시간 초과");
                 })
                 .onErrorResume(error -> {
-                    System.out.println("Claude Api Error: "+ error.getMessage());
+                    log.error("Claude측의 오류: "+error.getMessage());
                     return Mono.just(formatIntoResponseDto(true, null));
 //                    return Mono.just(ClaudeResponseDto.getClaudeErrorDto(error.getMessage()));
                 });
@@ -69,8 +65,6 @@ public class ClaudeServiceImpl implements ClaudeService {
 
     @Override
     public ClaudeResponseDto formatIntoResponseDto(boolean isNetworkError, ClaudeResponseApiDto claudeResponseApiDto)  {
-        System.out.println("claudeResponseApiDto");
-        System.out.println(claudeResponseApiDto);
         ClaudeResponseDto claudeResponseDto = new ClaudeResponseDto();
         if (isNetworkError) {
             claudeResponseDto.setErrorMessage("ai api 오류");
@@ -81,8 +75,6 @@ public class ClaudeServiceImpl implements ClaudeService {
 
 //        if (claudeResponseApiDto.getType().equals("message")) {  //api 정상 작동시
             String message = claudeResponseApiDto.getContent().get(0).getText();
-            System.out.println("message");
-            System.out.println(message);
             if (message.charAt(0) != '{') {
                 message = '{'+message;
             }
@@ -90,15 +82,11 @@ public class ClaudeServiceImpl implements ClaudeService {
                 message = message + '}';
             }
             String jsonMessage = message;
-            System.out.println("jsonMessage");
-            System.out.println(jsonMessage);
             try {
                 ClaudeResponseDto.Message messageDto = objectMapper.readValue(jsonMessage, ClaudeResponseDto.Message.class);
                 claudeResponseDto.setMessage(messageDto);
-                System.out.println("messageDto");
-                System.out.println(messageDto);
             } catch(JsonProcessingException e) {
-                System.out.println("JsonProcessingException"+e.getMessage());
+                log.warn("JsonProcessingException (답변이 json 형식을 따르지 않음 오류):"+e.getMessage());
                 //재시도하라는 메시지 보내자
 //                claudeResponseDto.setErrorMessage("답변이 json 형식을 따르지 않음 오류");
                 claudeResponseDto.setErrorMessage("다시 시도해주세요");
@@ -132,10 +120,10 @@ public class ClaudeServiceImpl implements ClaudeService {
                 .timeout(Duration.ofSeconds(10))
                 .doOnError(TimeoutException.class, e -> {
                     //타임아웃 에러 단순 확인용, 이 함수로 값 변경은 불가
-                    System.out.println("api 요청 시간 초과");
+                    log.warn("api 요청 시간 초과");
                 })
                 .onErrorResume(error -> {
-                    System.out.println("Claude Api Error: "+ error.getMessage());
+                    log.error("Claude측의 오류: "+error.getMessage());
                     return Mono.just(ClaudeResponseApiDto.getClaudeErrorDto(error.getMessage()));
                 });
     }
@@ -151,5 +139,42 @@ public class ClaudeServiceImpl implements ClaudeService {
         claudeResponseDto.setErrorMessage(msg);
         return Mono.just(claudeResponseDto);
     }
+
+
+    @Override
+    public ClaudeResponseDto formatIntoResponseDto(String firstResponse, String secondResponse, String thirdResponse){
+        ClaudeResponseDto claudeResponseDto = new ClaudeResponseDto();
+//        if (isNetworkError) {
+//            claudeResponseDto.setErrorMessage("ai api 오류");
+//            return claudeResponseDto;
+//        }
+        // JSON 문자열을 Java 객체로 변환할 ObjectMapper 생성
+//        ObjectMapper objectMapper = new ObjectMapper();
+
+//        if (claudeResponseApiDto.getType().equals("message")) {  //api 정상 작동시
+//        try {
+            ClaudeResponseDto.Message messageDto =
+                    ClaudeResponseDto.Message.builder()
+                            .fir(firstResponse)
+                            .sec(secondResponse)
+                            .thir(thirdResponse)
+                            .build();
+            claudeResponseDto.setMessage(messageDto);
+
+//        } catch(JsonProcessingException e) {
+//            System.out.println("JsonProcessingException"+e.getMessage());
+            //재시도하라는 메시지 보내자
+//                claudeResponseDto.setErrorMessage("답변이 json 형식을 따르지 않음 오류");
+//            claudeResponseDto.setErrorMessage("다시 시도해주세요");
+//        }
+//        } else if (claudeResponseApiDto.getType().equals("error")) { //api 에러날 시
+//            System.out.println("claudeResponseApiDto.getType().equals(\"error\")");
+        //어떤 오류인지에 따라 메시지 달리하기
+//            claudeResponseDto.setErrorMessage("ai api 오류");
+//        }
+        return claudeResponseDto;
+    }
+
+
 
 }

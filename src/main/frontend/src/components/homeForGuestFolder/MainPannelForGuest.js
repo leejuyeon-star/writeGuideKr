@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import { useEffect, useState,useContext } from "react";
 import { useParams } from "react-router-dom";
-import '../styles/MainPannel.css';
+import '../../styles/MainPannel.css';
 import { Transition } from 'react-transition-group';
 // import MainNote from "./MainNote";
-import MainNote from "../mainPannelFolder/MainNote";
+import MainNote from "./MainNoteForGuest";
 import { IsRightPannelVisibleContext, AnswerStateContext } from '../../ContextProvider';
 import MasterFooter from "../MasterFooter"
 
 
-function MainPannel({ onRequestedHelp, changedContentInfo}) {
+function MainPannelForGuest({ onRequestedHelp, changedContentInfo}) {
     const { state: {isRightPannelVisible}, actions:{setIsRightPannelVisible} } = useContext(IsRightPannelVisibleContext);
     const { state: {answerState} } = useContext(AnswerStateContext);
 
@@ -52,5 +52,5 @@ function MainPannel({ onRequestedHelp, changedContentInfo}) {
 }
 
 
-export default MainPannel;
+export default MainPannelForGuest;
 

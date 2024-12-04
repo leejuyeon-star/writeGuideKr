@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 // import { useBlocker, useNavigate} from "react-router-dom";       // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140 
 import { GetMemberAccount } from "../api/auth";         
 import { useNavigate } from "react-router-dom"; 
+import { useBeforeunload } from "react-beforeunload";       //새로고침 or 뒤로가기 or 링크임의변경 시 알림창 띄우기. 참고: https://www.npmjs.com/package/react-beforeunload
+import { useBlocker } from "react-router-dom";              // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140
 
 
 function Home() {
@@ -36,6 +38,42 @@ function Home() {
     //로그인했으면 
 
     const [isMember, setIsMember] = useState(false);
+    const [isBlockerActive, setIsBlockerActive] = useState(false);
+
+    useEffect(() => {
+        async function a() {
+            const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
+            if (_memberAccount.userName === "NON_MEMBER") {
+                navigate("/tutorial");
+            } else {
+                setIsBlockerActive(true);
+            }
+        }
+        a();
+    }, [])
+
+
+    // 새로고침 or 뒤로가기 시 알림창 띄우기
+    useBeforeunload((event) => {event.preventDefault()});
+
+    // =====라우터를 통한 이동시 알림창 띄우기 =====//
+    const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+            // return currentLocation.pathname !== nextLocation.pathname;
+            return isBlockerActive && currentLocation.pathname !== nextLocation.pathname
+        }
+    );
+
+    useEffect(() => {
+        if (blocker.state !== "blocked") return;
+        if (window.confirm(`사이트를 벗어나시겠습니까? \n변경사항이 저장되지 않을 수 있습니다.`)) {
+            blocker.proceed();
+        } else {
+            blocker.reset();
+        }
+    }, [blocker.state]);
+
+    // ===========================================//
+    
 
 
     //웹갱신시 or api 요청 직후 

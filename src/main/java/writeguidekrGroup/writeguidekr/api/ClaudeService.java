@@ -18,4 +18,8 @@ public interface ClaudeService {
     ClaudeResponseDto formatIntoResponseDto(boolean isNetworkError, ClaudeResponseApiDto claudeResponseApiDto);
 
     Mono<ClaudeResponseDto> sendCustomError(String msg);
+
+
+    //튜토리얼 용
+    ClaudeResponseDto formatIntoResponseDto(String firstResponse, String secondResponse, String thirdResponse);
 }

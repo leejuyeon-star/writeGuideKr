@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional(readOnly = true)
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
@@ -30,17 +29,17 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        log.info("getAttributes: {}", oAuth2User.getAttributes());
+//        log.info("getAttributes: {}", oAuth2User.getAttributes());
 
         OAuth2UserInfo oAuth2UserInfo = null;
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
         if(provider.equals("google")) {
-            log.info("구글 로그인 요청");
+//            log.info("구글 로그인 요청");
             oAuth2UserInfo = new GoogleUserInfo( oAuth2User.getAttributes() );
         } else if (provider.equals("naver")) {
-            log.info("네이버 로그인 요청");
+//            log.info("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
         }
 

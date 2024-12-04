@@ -7,8 +7,7 @@ import { IsRightPannelVisibleContext, AnswerStateContext, MemberAccountContext }
 import { toast } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import useUndoableState from "../../modules/useUndoableState";
-import { useBeforeunload } from "react-beforeunload";       //새로고침 or 뒤로가기 or 링크임의변경 시 알림창 띄우기. 참고: https://www.npmjs.com/package/react-beforeunload
-import { useBlocker } from "react-router-dom";              // 라우터를 통한 이동시 차단 or 알림창 띄우기. 참고: https://choisuhyeok.tistory.com/140
+
 import { onKeyboardEvent } from "../../modules/onKeyboardEvent";    //단축키 감지
 
 function MainNote({ onRequestedHelp, changedContentInfo }) {    
@@ -37,26 +36,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
 
 
     
-    // 새로고침 or 뒤로가기 시 알림창 띄우기
-    useBeforeunload((event) => {event.preventDefault()});
-
-    // =====라우터를 통한 이동시 알림창 띄우기 =====//
-    const blocker = useBlocker(({ currentLocation, nextLocation }) => {
-            return currentLocation.pathname !== nextLocation.pathname;
-        //  return when && currentLocation.pathname !== nextLocation.pathname
-        }
-    );
-
-    useEffect(() => {
-        if (blocker.state !== "blocked") return;
-        if (window.confirm(`사이트를 벗어나시겠습니까? \n변경사항이 저장되지 않을 수 있습니다.`)) {
-            blocker.proceed();
-        } else {
-            blocker.reset();
-        }
-    }, [blocker.state]);
-
-    // ===========================================//
 
 
 
@@ -214,7 +193,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
         if (selection.rangeCount > 0) {
             const selectedText = findDraggedText(selection);
             let withoutspace = selectedText.replace(/\s+/g, '');       
-            if (selectedText.length <= 0 || withoutspace.length <= 2) {
+            if (selectedText.length <= 0 || withoutspace.length <= 1) {
                 // setSelectedText('');
                 return false;
             }
@@ -241,7 +220,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
         const cursorIdx = range.endOffset; // 선택한 텍스트의 시작 노드
         const rect = range.getBoundingClientRect();
 
-        console.log("로로");
         console.log(rect.bottom + window.scrollY);
         console.log(rect.right + window.scrollX);
 
@@ -269,7 +247,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
                 //커서버튼 지우기
                 setIsCursorButtonOn(false);
                 if (isValidSelectedText(selection)) {
-                    //3글자 이상인 경우
+                    //2글자 이상인 경우
                     //드래그버튼 생성
                     relocateDraggedButton(selection);
                     setIsDraggedButtonOn(true);

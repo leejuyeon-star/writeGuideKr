@@ -2,6 +2,7 @@
 //CORS 방지를 위한 프록시 설정
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { ResponseGet } from "./callBackend"
 
 export const CallBetweenPhrase = async ([txt, idx]) => {
     async function getResponsePost(jsonRequestMsg) {
@@ -20,7 +21,7 @@ export const CallBetweenPhrase = async ([txt, idx]) => {
             console.log(jsonRequestMsg);
             console.log("error:");
             console.log(error);
-            return [false, error];
+            return [false, `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`];
         }        
     }
 
@@ -212,12 +213,17 @@ export const CallAfterSentence = async (txt) => {
             }
             return [true, wholeTxt];
         } else {
-            const targetSentence = `${sentences[(sentences.length -2)]}${sentences[(sentences.length-1)]}`;
-            console.log("targetSentence[-1]");
-            console.log(sentences[(sentences.length-1)]);
-            console.log("targetSentence[-2]");
-            console.log(sentences[(sentences.length -2)]);
-            console.log("targetSentence3");
+            let targetSentence = "";
+            if (sentences[(sentences.length-1)].length > 20) {
+                targetSentence = sentences[(sentences.length-1)];
+            } else {
+                targetSentence = `${sentences[(sentences.length -2)]}${sentences[(sentences.length-1)]}`;
+                console.log("targetSentence[-1]");
+                console.log(sentences[(sentences.length-1)]);
+                console.log("targetSentence[-2]");
+                console.log(sentences[(sentences.length -2)]);
+                console.log("targetSentence3");
+            }
             if (targetSentence.length > 140) {
                 return [false, `문장의 길이가 너무 깁니다. \n .!? 표시를 하여 문장을 구분해주세요.`];
             }
@@ -270,7 +276,62 @@ export const CallAfterSentence = async (txt) => {
     
 }
 
+export const CallAfterSentenceForTutorial = async () => {
 
+    const formatJsonIntoAnswerList = (isSucceed, jsonData) => {
+        if (isSucceed) {
+            if (jsonData.errorMessage === "") {
+                console.log("jsonData")
+                console.log(jsonData);
+    
+                console.log(jsonData.message);
+                const message = jsonData.message;
+                console.log(message.fir, message.sec, message.thir)
+                return {isSucceed: true, msg: [message.fir, message.sec, message.thir]};
+            } else {
+                console.log(jsonData.errorMessage);
+                return {isSucceed: false, msg: jsonData.errorMessage};
+            }
+            
+        } else {
+            //network error
+            return {isSucceed: false, msg: `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`};
+        }
+    }
+    
+    
+    const [_isSucceed, _jsonData] = await ResponseGet("/api/claude/tutorial/aftersentence");
+    return formatJsonIntoAnswerList(_isSucceed, _jsonData);
+    
+}
+
+export const CallBetweenPhraseForTutorial = async () => {
+    const formatJsonIntoAnswerList = (isSucceed, jsonData) => {
+        if (isSucceed) {
+            if (jsonData.errorMessage === "") {
+                console.log("jsonData")
+                console.log(jsonData);
+    
+                console.log(jsonData.message);
+                const message = jsonData.message;
+                console.log(message.fir, message.sec, message.thir)
+                return {isSucceed: true, msg: [message.fir, message.sec, message.thir]};
+            } else {
+                console.log(jsonData.errorMessage);
+                return {isSucceed: false, msg: jsonData.errorMessage};
+            }
+            
+        } else {
+            //network error
+            return {isSucceed: false, msg: `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`};
+        }
+    }
+
+    const [_isSucceed, _jsonData] = await ResponseGet("/api/claude/tutorial/betweenphrase");
+    return formatJsonIntoAnswerList(_isSucceed, _jsonData);
+
+    
+}
 
 
 // export const CallBetweenPhrase = async () => {

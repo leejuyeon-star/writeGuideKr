@@ -19,7 +19,7 @@ export const ResponseGet = async (path, param = {}) => {
         // console.log(jsonRequestMsg);
         console.log("error:");
         console.log(error);
-        return [false, error];
+        return [false, `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`];
     }     
 }
 
@@ -40,7 +40,7 @@ export const ResponsePost = async (path, jsonRequestMsg = {}) => {
         console.log(jsonRequestMsg);
         console.log("error:");
         console.log(error);
-        return [false, error];
+        return [false, `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`];
     }        
 }
 
@@ -55,6 +55,6 @@ export const ResponseDelete = async (path) => {
     } catch (error) {
         console.log("error:");
         console.log(error);
-        return [false, error];
+        return [false, `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`];
     }        
 }

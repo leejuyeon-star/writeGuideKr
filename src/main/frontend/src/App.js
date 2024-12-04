@@ -18,6 +18,7 @@ createBrowserRouter는 React Router v6.4 이상에서
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './pages/Home';
+// import Home from './pages/Home';
 import Login from "./pages/Login";
 import About from "./pages/About";
 import { ToastContainer } from 'react-toastify';
@@ -28,6 +29,7 @@ import MasterHeader from './components/MasterHeader';
 import MasterFooter from './components/MasterFooter';
 import Account from './pages/Account';
 import NetworkError from './pages/NetworkError';
+import HomeForGuest from './pages/HomeForGuest';
 
 // 데이터 라우터 정의
 const router = createBrowserRouter([
@@ -40,6 +42,16 @@ const router = createBrowserRouter([
       {/* MasterFooter는 MainPannel에 포함됨 */}
     </>,
   },
+  {
+    path: "/tutorial",
+    element: 
+    <>
+      <MasterHeader />
+      <HomeForGuest />
+      {/* MasterFooter는 MainPannel에 포함됨 */}
+    </>,
+  },
+
   {
     path: "/login-page",
     element: <Login />,

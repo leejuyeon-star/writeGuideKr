@@ -55,7 +55,7 @@ public class PrincipalDetailsService implements UserDetailsService{
     @Transactional
     public int useToken(Member member) {
         member.minusTokenSum(1);
-        System.out.println("use 1 token. current token sum:"+member.getTokenSum());
+//        System.out.println("use 1 token. current token sum:"+member.getTokenSum());
         memberRepository.save(member);
         return member.getTokenSum();
     }

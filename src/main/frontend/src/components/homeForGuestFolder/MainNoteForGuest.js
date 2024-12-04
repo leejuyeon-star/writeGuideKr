@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import '../../styles/mainPannelFolder/MainNote.css'
+import '../../styles/mainPannelFolder/MainNoteForGuest.css'
 import { Transition } from 'react-transition-group';
 import { IsRightPannelVisibleContext, AnswerStateContext, MemberAccountContext } from '../../ContextProvider';
 import { toast } from 'react-toastify'
@@ -12,6 +13,7 @@ import { useBlocker } from "react-router-dom";              // 라우터를 통�
 import { onKeyboardEvent } from "../../modules/onKeyboardEvent";    //단축키 감지
 
 function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {    
+    const navigate = useNavigate();
     const [changedContent, setChangedContent] = useState("");
     const { state: {answerState}, actions:{setAnswerState} } = useContext(AnswerStateContext);
     const { state: {memberAccount}, actions:{setMemberAccount} } = useContext(MemberAccountContext);
@@ -33,13 +35,19 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     const pencilGreenImg = process.env.PUBLIC_URL + "/images/pencil_green.png";
 
     const [content, setContent] = useState("");
+    const [subChangedContent1, setSubChangedContent1] = useState("");
+    const [subChangedContent2, setSubChangedContent2] = useState("");
     const contentRef = useRef();
+
+    const sub_contentRef1 = useRef();
+    const sub_contentRef2 = useRef();
+
     
     // 새로고침 or 뒤로가기 시 알림창 띄우기
     //! useBeforeunload((event) => {event.preventDefault()});
 
-    // =====라우터를 통한 이동시 알림창 띄우기 =====//
-    //! const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    // // =====라우터를 통한 이동시 알림창 띄우기 =====//
+    // const blocker = useBlocker(({ currentLocation, nextLocation }) => {
     //         return currentLocation.pathname !== nextLocation.pathname;
     //     //  return when && currentLocation.pathname !== nextLocation.pathname
     //     }
@@ -54,18 +62,17 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     //     }
     // }, [blocker.state]);
 
-    // ===========================================//
+    // // ===========================================//
 
 
     //! 처음 실행시 글 넣어주기
     useEffect(() => {
-        const element = contentRef.current;
-        contentRef.current.focus();
-        console.log(contentRef.current);
-        contentRef.current.innerText = "";
-        contentRef.current.innerText = 
-        ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭`;
-         console.log(contentRef.current.innerText);
+        const element = sub_contentRef1.current;
+        sub_contentRef1.current.focus();
+        // contentRef.current.innerText = "";
+        // contentRef.current.innerText = 
+        // ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭`;
+        //  console.log(contentRef.current.innerText);
          //! 커서 노트 클릭
 
         //=======커서를 텍스트의 맨 끝으로 이동==========
@@ -75,10 +82,18 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         range.collapse(false); // false로 설정하면 커서를 끝으로 위치
         selection.removeAllRanges();
         selection.addRange(range);
+
+
+
         //===========================================
+
+        // 커서의 위치 가져오기
+        // const rect = range.getBoundingClientRect();
+        // console.log("커서 위치:", rect);
 
         //커서 버튼 활성화
         onMoveCurosr();
+
         // contentRef.current.innerText = 
         // ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
         
@@ -88,6 +103,17 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         
         
         //  지금 바로 로그인하여 다양한 주제로 글을 써보세요.`;
+
+
+        //드래그 버튼 키기
+        setIsDraggedButtonOn(false);
+        relocateCursorButton(selection);
+        setIsCursorButtonOn(true);
+        
+
+
+
+
          
     }, [])
 
@@ -97,10 +123,17 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     //기본 내용으로 돌아가기
     useEffect(() => {
         // 기본 텍스트를 설정합니다.
-        if (content !== "" && changedContent === "" && contentRef.current) {
-            contentRef.current.innerText = content;
+        if (content !== "" && subChangedContent1 === "" && sub_contentRef1.current) {
+            sub_contentRef1.current.innerText = content;
         }
-    }, [changedContent]);
+    }, [subChangedContent1]);
+
+    useEffect(() => {
+        // 기본 텍스트를 설정합니다.
+        if (content !== "" && subChangedContent2 === "" && sub_contentRef2.current) {
+            sub_contentRef2.current.innerText = content;
+        }
+    }, [subChangedContent2]);
 
     // 띄어쓰기 계산
     const [wholeTextCountWithoutSpace, setWholeTextCountWithoutSpace] = useState(0);
@@ -122,7 +155,8 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         if (_requestMsg === "") {return;}
         if (_requestMsg === "draggedText") {
             if (changingTxt === "") {       //기존 내용으로 돌아와야 할 경우
-                setChangedContent("");
+                // setChangedContent("");
+                setSubChangedContent2("");
                 return;
             }
             if (isApply) {
@@ -131,18 +165,21 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                 const rightTxt = _content.slice(selectedIdx[1], );
                 const resultTxt = `${leftTxt} ${changingTxt} ${rightTxt}`;
                 setContent(resultTxt);
-                setChangedContent("");
+                // setChangedContent("");
+                setSubChangedContent2("");
 
-                setDoc({text: resultTxt});
+                // setDoc({text: resultTxt});
             } else {
                 const leftTxt = _content.slice(0,selectedIdx[0]);
                 const rightTxt = _content.slice(selectedIdx[1], );
                 // console.log(`${leftTxt} ${changingTxt} ${rightTxt}`);
-                setChangedContent(`${leftTxt} ${changingTxt} ${rightTxt}`);
+                setSubChangedContent2(`${leftTxt} ${changingTxt} ${rightTxt}`);
+                // setChangedContent(`${leftTxt} ${changingTxt} ${rightTxt}`);
             }
         } else if (_requestMsg === "afterSentence") {
             if (changingTxt === "") {       //기존 내용으로 돌아와야 할 경우
-                setChangedContent("");
+                // setChangedContent("");
+                setSubChangedContent1("");
                 return;
             }
             const leftTxt = _content.slice(0,selectedIdx);
@@ -151,11 +188,13 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
             if (isApply) {
                 // console.log("진짜바꾸기");
                 setContent(resultTxt);
-                setChangedContent("");
-                setDoc({text: resultTxt});
+                // setChangedContent("");
+                setSubChangedContent1("");
+                // setDoc({text: resultTxt});
             } else {
                 // console.log(`${_content} ${changingTxt}`);
-                setChangedContent(resultTxt);
+                setSubChangedContent1(resultTxt);
+                // setChangedContent(resultTxt);
             }
         }
     }, [changedContentInfo]);
@@ -164,9 +203,14 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     const requestedHelp = (requestMsg, param) => {
         //현재 패널 열려있으면 고정, 아니면 이동
         if (requestMsg === "draggedText") {
-            onRequestedHelp([requestMsg, content, param]);
+            setContent(sub_contentRef2.current.innerText);
+            const _content = sub_contentRef2.current.innerText
+            onRequestedHelp([requestMsg, _content, [14,17]]);
         } else if (requestMsg === "afterSentence") {
-            onRequestedHelp([requestMsg, content, param])
+            // console.log(requestMsg, param);
+            const _content = sub_contentRef1.current.innerText
+            setContent(sub_contentRef1.current.innerText);
+            onRequestedHelp([requestMsg, _content, _content.length]);
         }
         
         // if (!isRightPannelVisible){
@@ -187,9 +231,9 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
             // console.log("isComposing 무시");
             // return;
         // }
-        console.log("이거 마우스오버될때 출력되면 안된다 출력되면 곤란해");
+        // console.log("이거 마우스오버될때 출력되면 안된다 출력되면 곤란해");
         setContent(contentRef.current.innerText);
-        setDoc({text: event.target.innerText});
+        // setDoc({text: event.target.innerText});
         // console.log("===================onInput=================");
         // console.log(contentRef.current.innerText);
         // console.log(event);
@@ -203,6 +247,8 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         // console.log("==========================================");
         // setDoc({text: contentRef.current.innerText});
         setIsCursorButtonOn(true);
+
+        
         relocateCursorButton(window.getSelection());
 
         
@@ -272,15 +318,22 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     const relocateCursorButton = (selection) => {
         const range = selection.getRangeAt(0);
         const cursorIdx = range.endOffset; // 선택한 텍스트의 시작 노드
-        const rect = range.getBoundingClientRect();
+        // const rect = range.getBoundingClientRect();
 
-        console.log("selection");
-        console.log(selection);
-        console.log("range");
-        console.log(range);
-        console.log("rect");
-        console.log(rect);
+        //!
+        const rect = sub_contentRef1.current.getBoundingClientRect();
+
+        // console.log("selection");
+        // console.log(selection);
+        // console.log("range");
+        // console.log(range);
+        // console.log("rect");
+        // console.log(rect);
+
         
+        // const rect = getLastCharRect();
+        // console.log("rect");
+        // console.log(rect);
 
         // 버튼의 위치 설정 (textarea 안에서)
         setCursorButtonPosition({
@@ -288,6 +341,8 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
             left: rect.right + window.scrollX // 선택한 텍스트의 오른쪽
         });
     }
+
+
 
     const [draggedButtonPosition, setDraggedButtonPosition] = useState({ top: 0, left: 0 });
     // 드래그된 텍스트를 감지하여 버튼 세팅
@@ -301,6 +356,8 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
             // setIsCursorButtonOn(false);
             // setIsDraggedButtonOn(false);
         // } else {
+            setIsCursorButtonOn(false);
+            setIsDraggedButtonOn(false);
             if ( dragCount > 0) {
                 //드래그 한 경우
                 //커서버튼 지우기
@@ -319,13 +376,14 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                     //드래그버튼 지우기
                     setIsDraggedButtonOn(false);
                 }
-            } else {
-                //드래그 안한 경우
-                //커서버튼 생성
-                setIsDraggedButtonOn(false);
-                relocateCursorButton(selection);
-                setIsCursorButtonOn(true);
             }
+            //  else {
+            //     //드래그 안한 경우
+            //     //커서버튼 생성
+            //     setIsDraggedButtonOn(false);
+            //     relocateCursorButton(selection);
+            //     setIsCursorButtonOn(true);
+            // }
         // }
     };
 
@@ -420,40 +478,40 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     //=========== undo/redo 관련  ===============//
     
     const onClickUndoButton = (event) => {
-        if (event){
-            //단축키가 아닌 클릭시에만 동작하도록
-            hideTooltip(event);     
-        }
-        const undoText = undoDoc();
-        console.log("==============undo=============");
-        console.log("index");
-        console.log(docStateIndex);
-        console.log("doc");
-        console.log(doc);
-        console.log("doc.text");
-        console.log(doc.text);
-        console.log("===========================");
-        contentRef.current.innerText = undoText;
-        setIsCursorButtonOn(false);
-        setIsDraggedButtonOn(false);
+        // if (event){
+        //     //단축키가 아닌 클릭시에만 동작하도록
+        //     hideTooltip(event);     
+        // }
+        // const undoText = undoDoc();
+        // console.log("==============undo=============");
+        // console.log("index");
+        // console.log(docStateIndex);
+        // console.log("doc");
+        // console.log(doc);
+        // console.log("doc.text");
+        // console.log(doc.text);
+        // console.log("===========================");
+        // contentRef.current.innerText = undoText;
+        // setIsCursorButtonOn(false);
+        // setIsDraggedButtonOn(false);
     }
 
 
     const onClickRedoButton = (event) => {
-        hideTooltip(event);
-        const redoText = redoDoc();
+        // hideTooltip(event);
+        // const redoText = redoDoc();
         
-        console.log("===========redo==============")
-        console.log("index");
-        console.log(docStateIndex);
-        console.log("doc")
-        console.log(doc)
-        console.log("doc.text")
-        console.log(doc.text)
-        console.log("===========================")
-        contentRef.current.innerText = redoText;
-        setIsCursorButtonOn(false);
-        setIsDraggedButtonOn(false);
+        // console.log("===========redo==============")
+        // console.log("index");
+        // console.log(docStateIndex);
+        // console.log("doc")
+        // console.log(doc)
+        // console.log("doc.text")
+        // console.log(doc.text)
+        // console.log("===========================")
+        // contentRef.current.innerText = redoText;
+        // setIsCursorButtonOn(false);
+        // setIsDraggedButtonOn(false);
     }
     //======================================================//
 
@@ -468,6 +526,19 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
     // const localLoadContent = () => {
     //     localStorage.getItem("content id명");
     // }
+
+
+
+    const onKeyUp = () => {
+        if(window.confirm("로그인 후 사용 가능합니다.")) {
+            //확인
+            navigate("/login-page");
+            return;    
+        }
+        else {
+            //취소
+        }
+    }
 
 
 
@@ -509,13 +580,13 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                         {/* <div>{isSaved ? `자동 저장됨`: ``}</div> */}
                     </div>
                 </header>
-                {changedContent ? 
+                {/* {changedContent ? 
                     <div                                     
                     className="mn-textarea" 
                     value={changedContent}
                     type="text" 
                     >{changedContent}</div>
-                : 
+                :  */}
                     <div 
                         ref={contentRef}
                         contentEditable
@@ -523,14 +594,40 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                         // value={content}
                         onInput={onInput} 
                         onMouseUp={onMoveCurosr} 
-                        onKeyUp={onMoveCurosr}
+                        onKeyUp={onKeyUp}
                         onKeyDown={onKeyboardEvent(onClickUndoButton)}
                         type="text"
-                        placeholder='Write your content..' 
+                        // placeholder='Write your content..' 
                         suppressContentEditableWarning={true}
                     >
+                        {subChangedContent1 ? 
+                            <div                                     
+                            // className="mn-textarea" 
+                            // value={subChangedContent1}
+                            // type="text" 
+                            >{subChangedContent1}</div>
+                        : 
+                            <div ref={sub_contentRef1} className="mnforGuest-sub-textarea" style={{width: "max-content"}}> 
+                                글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 눌러
+                            </div>
+                        }
+                        <br/><br/>
+                        {subChangedContent2 ? 
+                            <div                                     
+                            // className="mn-textarea" 
+                            // value={subChangedContent2}
+                            // type="text" 
+                            >{subChangedContent2}</div>
+                        : 
+                            <div ref={sub_contentRef2} className="mnforGuest-sub-textarea">
+                                {/* ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. - '알맞는'을 드래그해보세요. 지금 바로 로그인하여 다양한 주제로 글을 써보세요. */}
+                                ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. (⇠ '알맞는'을 드래그해보세요.)
+                            </div>
+                        }
+                        <br/><br/>
+                        <div> 지금 바로 로그인하여 다양한 주제로 글을 써보세요.</div>
                     </div>
-                }
+                {/* } */}
                 {isDraggedButtonOn ? 
                     <button 
                         className="mn-help-dragged-button" 
@@ -539,7 +636,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                             left: draggedButtonPosition.left,
                         }}
                         onClick={onDraggedButtonClick}>
-                            <img src={pencilBlueImg} className="mn-pencil-blue-img"/>
+                            <img src={pencilBlueImg} className="mn-pencil-blue-img mnfg-blinking"/>
                     </button> : null
                 }
                 
@@ -552,7 +649,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
                         }}
                         onClick={onCursorButtonClick}
                         >
-                            <img src={pencilGreenImg} className="mn-pencil-green-img"/>
+                            <img src={pencilGreenImg} className="mn-pencil-green-img mnfg-blinking"/>
                     </button> : null
                 }
                 <div className="mn-bottom-container">

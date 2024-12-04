@@ -1,10 +1,10 @@
 import { useState, useEffect, delay, useContext } from "react";
 
-import MainPannel from "../components/MainPannel";
+import MainPannel from "../components/homeForGuestFolder/MainPannelForGuest";
 import MasterHeader from "../components/MasterHeader";
-import RightPannel from "../components/RightPannel";
+import RightPannel from "../components/homeForGuestFolder/RightPannelForGuest";
 import { CSSTransition} from 'react-transition-group';
-import { CallBetweenPhrase, CallAfterSentence } from "../api/claude"
+import { CallAfterSentenceForTutorial, CallBetweenPhraseForTutorial } from "../api/claude"
 import { IsRightPannelVisibleContext, AnswerStateContext, AnswerDetailsContext, MemberAccountContext } from '../ContextProvider';
 import '../styles/Home.css'
 import { toast } from 'react-toastify'
@@ -42,9 +42,9 @@ function HomeForGuest() {
     //회원/게스트 여부 확인, token 개수 확인
     useEffect(() => {
         async function a() {
-            console.log("Home useEffect");
+            // console.log("Home useEffect");
             const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            console.log(_memberAccount)
+            // console.log(_memberAccount)
             if (_memberAccount.userName === "NON_MEMBER") {
                 setMemberAccount(_memberAccount);
                 return;
@@ -73,57 +73,58 @@ function HomeForGuest() {
         if (_requestMsg === "") {return;}
         setResponseErrorMsg("");
         setAnswerState("LOADING");
-        console.log("loading")
+        // console.log("loading")
         if (_requestMsg === "draggedText") {
             setContent(_content);
             setDraggedIdx(_idx);
             setRequestMsg(_requestMsg);
-            const response = await CallBetweenPhrase([_content, _idx]);
+            const response = await CallBetweenPhraseForTutorial();
             isSucceed = response.isSucceed;
             msg = response.msg;
         } else if (_requestMsg === "afterSentence") {
             setContent(_content);
             setCursorIdx(_idx);
             setRequestMsg(_requestMsg);
-            const slicedContent = _content.slice(0, _idx);
-            console.log(slicedContent);
-            const response = await CallAfterSentence(slicedContent);
+            // const slicedContent = _content.slice(0, _idx);
+            // console.log(slicedContent);
+            const response = await CallAfterSentenceForTutorial();
             isSucceed = response.isSucceed;
             msg = response.msg;
-        } else if (_requestMsg === "retry") {   //재시도 요청한 경우
-            if (!content) {
-                isSucceed = false;
-                msg = "이전 요청건이 없습니다";
-            } else {
-                //단어/구 재검색
-                if (requestMsg === "draggedText"){     
-                    console.log("이전 요청건이 'selectedText'인 경우");
-                        const response = await CallBetweenPhrase([content, draggedIdx]);
-                        isSucceed = response.isSucceed;
-                        msg = response.msg;
-                } else if (requestMsg === "afterSentence"){
-                    console.log("이전 요청건이 'afterSentence' 인 경우");
-                    const slicedContent = content.slice(0, cursorIdx);
-                    const response = await CallAfterSentence(slicedContent);
-                    isSucceed = response.isSucceed;
-                    msg = response.msg;
-                }
-            }
         } 
+        // else if (_requestMsg === "retry") {   //재시도 요청한 경우
+        //     if (!content) {
+        //         isSucceed = false;
+        //         msg = "이전 요청건이 없습니다";
+        //     } else {
+        //         //단어/구 재검색
+        //         if (requestMsg === "draggedText"){     
+        //             console.log("이전 요청건이 'selectedText'인 경우");
+        //                 const response = await CallBetweenPhrase([content, draggedIdx]);
+        //                 isSucceed = response.isSucceed;
+        //                 msg = response.msg;
+        //         } else if (requestMsg === "afterSentence"){
+        //             console.log("이전 요청건이 'afterSentence' 인 경우");
+        //             const slicedContent = content.slice(0, cursorIdx);
+        //             const response = await CallAfterSentence(slicedContent);
+        //             isSucceed = response.isSucceed;
+        //             msg = response.msg;
+        //         }
+        //     }
+        // } 
         
 
         //단어/구 ai 검색
         // const answerList = await getAnswerList3BetweenPhrase([txt, idx]);
         
         if (isSucceed) {
-            console.log("CallBetweenPhrase 성공");
+            // console.log("CallBetweenPhrase 성공");
             const [answer1, answer2, answer3] = msg;
             setAnswers([answer1, answer2, answer3]);
-            console.log(msg);
+            // console.log(msg);
             setAnswerState("RECEIVED");
         } else {
-            console.log("CallBetweenPhrase 실패");
-            console.log(msg);
+            // console.log("CallBetweenPhrase 실패");
+            // console.log(msg);
             setResponseErrorMsg(msg);
             setAnswerState("ERROR");
         }

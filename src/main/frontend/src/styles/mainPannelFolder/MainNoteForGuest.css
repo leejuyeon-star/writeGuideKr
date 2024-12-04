@@ -1,0 +1,20 @@
+@keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+
+.mnfg-blinking {
+animation: blink 1s infinite; /* 1초 간격으로 무한 반복 */
+}
+
+.mnforGuest-sub-textarea {
+    white-space: pre-line       /* \n 개행 적용되도록 함 */
+}

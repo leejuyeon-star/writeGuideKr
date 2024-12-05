@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 
 
 function Login() {
-    const domain = "http://localhost:8080";
-    const naverLoginLink = `${domain}/oauth2/authorization/naver`;
-    const googleLoginLink = `${domain}/oauth2/authorization/google`;
+    // const domain = "http://localhost:8080";
+    const naverLoginLink = `/oauth2/authorization/naver`;
+    // const naverLoginLink = `${domain}/oauth2/authorization/naver`;
+    const googleLoginLink = `/oauth2/authorization/google`;
+    // const googleLoginLink = `${domain}/oauth2/authorization/google`;
     // const googleLoginImg = process.env.PUBLIC_URL + "/images/copy.png";
     const naverLogoImg = process.env.PUBLIC_URL + "/images/naver_logo.png";
     const googleLogoImg = process.env.PUBLIC_URL + "/images/google_logo.png";

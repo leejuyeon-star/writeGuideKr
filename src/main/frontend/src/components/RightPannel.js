@@ -46,7 +46,7 @@ function RightPannel({ onRequestedHelp, response, onChangeContent, responseError
                         </button>
                     </header>
                     <AiAnswer onRequestedHelp={handleRequestedHelp} response={response} onChangeContent={handleChangeContent} responseErrorMsg={responseErrorMsg}/>
-                    <div className="rp-advertise-container">광고패널</div>
+                    {/* <div className="rp-advertise-container">광고패널</div> */}
                 </div>
             </CSSTransition>
         </>

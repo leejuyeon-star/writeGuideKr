@@ -42,10 +42,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// mysql
+//	implementation 'mysql:mysql-connector-j:8.0.39'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 	//Oauth2 사용 위함
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	//h2
-	runtimeOnly 'com.h2database:h2'
+	//h2로 테스트시 (./gradlew test -Dspring.profiles.active=test 명령어로 실행)
+//	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

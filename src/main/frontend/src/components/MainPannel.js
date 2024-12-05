@@ -39,9 +39,9 @@ function MainPannel({ onRequestedHelp, changedContentInfo}) {
                         <div>
                             <br/><br/><br/>
                         </div>
-                        <div className="mp-advertise-container">
+                        {/* <div className="mp-advertise-container">
                             광고    
-                        </div>
+                        </div> */}
                         <MasterFooter />
                         
 

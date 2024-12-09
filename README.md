@@ -50,7 +50,7 @@
 * [챗 gpt api vs claude api 가격 비교 분석](https://annyeong46.tistory.com/58)
 * [spring yml/yaml/properties 파일 작동 안됨 오류 해결](https://annyeong46.tistory.com/60)
 * [spring boot에 claude API 연동하는 방법 정리](https://annyeong46.tistory.com/62)
-* [react와 spring boot 간 연동하기 / 통신하기 정리] (https://annyeong46.tistory.com/63)
+* [react와 spring boot 간 연동하기 / 통신하기 정리](https://annyeong46.tistory.com/63)
 * [(SpringBoot) jpaRepsitory bean 등록 관련 오류 해결](https://annyeong46.tistory.com/64)
 * [(React)useBlocker 관련 오류 해결](https://annyeong46.tistory.com/65)
 * [(React)UseEffect의 async/await 관련 오류 해결](https://annyeong46.tistory.com/67)

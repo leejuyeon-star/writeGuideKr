@@ -19,9 +19,7 @@ function Account() {
     //회원/게스트 여부 확인, token 개수 확인
     useEffect(() => {
         async function a() {
-            console.log("Home useEffect");
             const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            console.log(_memberAccount)
             if (_memberAccount === "NETWORK_ERROR") {
                 navigate("/network-error")
                 return;

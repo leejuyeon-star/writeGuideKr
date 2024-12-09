@@ -80,9 +80,7 @@ function Home() {
     //회원/게스트 여부 확인, token 개수 확인
     useEffect(() => {
         async function a() {
-            console.log("Home useEffect");
             const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
-            console.log(_memberAccount)
             if (_memberAccount.userName === "NON_MEMBER") {
                 setMemberAccount(_memberAccount);
                 return;
@@ -124,7 +122,6 @@ function Home() {
             setCursorIdx(_idx);
             setRequestMsg(_requestMsg);
             const slicedContent = _content.slice(0, _idx);
-            console.log(slicedContent);
             const response = await CallAfterSentence(slicedContent);
             isSucceed = response.isSucceed;
             msg = response.msg;
@@ -135,12 +132,12 @@ function Home() {
             } else {
                 //단어/구 재검색
                 if (requestMsg === "draggedText"){     
-                    console.log("이전 요청건이 'selectedText'인 경우");
+                    //이전 요청건이 'selectedText'인 경우
                         const response = await CallBetweenPhrase([content, draggedIdx]);
                         isSucceed = response.isSucceed;
                         msg = response.msg;
                 } else if (requestMsg === "afterSentence"){
-                    console.log("이전 요청건이 'afterSentence' 인 경우");
+                    //이전 요청건이 'afterSentence' 인 경우
                     const slicedContent = content.slice(0, cursorIdx);
                     const response = await CallAfterSentence(slicedContent);
                     isSucceed = response.isSucceed;
@@ -174,36 +171,12 @@ function Home() {
         if (requestMsg === "" || content === "") {;return;}
         if (requestMsg === "draggedText") {
             setChangedContentInfo([requestMsg, isApply, txt, content, draggedIdx]);
-            // isLoading(false);
-            // response([answer1, answer2, answer3]);
             
         } else if (requestMsg === "afterSentence"){
             setChangedContentInfo([requestMsg, isApply, txt, content, cursorIdx]);
         }
 
     }
-
-    // const getAnswerList3BetweenPhrase = async ([wholeTxt, targetIdx]) => {
-    //     //   try {
-    //         const {isSucceed, msg} = await CallBetweenPhrase([wholeTxt, targetIdx]);
-            
-    //         if (isSucceed) {
-    //             console.log("CallBetweenPhrase 성공, succeed");
-    //             console.log(msg);
-    //             return msg;
-    //         } else {
-    //             console.log("CallBetweenPhrase 성공, not succeed");
-    //             console.log(msg);
-    //             return msg;  // 실패 시 null 또는 다른 값 반환
-    //         }
-    //     // } catch (error) {
-    //         // console.log("CallBetweenPhrase 실패");
-    //         // return error;  // 에러 반환
-    //     // }
-
-    //     //   [isSucceed, answerList]
-    // }
-
 
 
 

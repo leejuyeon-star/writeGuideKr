@@ -94,17 +94,6 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
         //커서 버튼 활성화
         onMoveCurosr();
 
-        // contentRef.current.innerText = 
-        // ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
-        
-        
-        //  ai 분석을 통해 문맥에 알맞는 표현을 추천해 드립니다. (<- '알맞는'을 드래그해보세요.)
-        
-        
-        
-        //  지금 바로 로그인하여 다양한 주제로 글을 써보세요.`;
-
-
         //드래그 버튼 키기
         setIsDraggedButtonOn(false);
         relocateCursorButton(selection);
@@ -231,21 +220,7 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
             // console.log("isComposing 무시");
             // return;
         // }
-        // console.log("이거 마우스오버될때 출력되면 안된다 출력되면 곤란해");
         setContent(contentRef.current.innerText);
-        // setDoc({text: event.target.innerText});
-        // console.log("===================onInput=================");
-        // console.log(contentRef.current.innerText);
-        // console.log(event);
-        // console.log(event.target.innerText);
-        // console.log("index");
-        // console.log(docStateIndex);
-        // console.log("doc")
-        // console.log(doc)
-        // console.log("doc.text")
-        // console.log(doc.text)
-        // console.log("==========================================");
-        // setDoc({text: contentRef.current.innerText});
         setIsCursorButtonOn(true);
 
         
@@ -279,15 +254,6 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
          return selection.toString().trim();       //.trim()붙여도돼?
     };    
 
-    // //클릭한 부분 문장의 인덱스 찾기
-    // const findSelectedIdx = (selection) => {
-    //     const range = selection.getRangeAt(0);
-    //     const textNode = range.startContainer; // 선택한 텍스트의 시작 노드
-    //     const text = textNode.nodeValue; // 텍스트 노드의 값
-    //     return range.startOffset;
-    //     // console.log(text.indexOf(selectedText, range.startOffset));
-    // }
-    
     //ai 분석 가능한 문자인지 확인
     const isValidSelectedText = (selection) => {
         if (selection.rangeCount > 0) {
@@ -322,18 +288,6 @@ function MainNoteForGuest({ onRequestedHelp, changedContentInfo }) {
 
         //!
         const rect = sub_contentRef1.current.getBoundingClientRect();
-
-        // console.log("selection");
-        // console.log(selection);
-        // console.log("range");
-        // console.log(range);
-        // console.log("rect");
-        // console.log(rect);
-
-        
-        // const rect = getLastCharRect();
-        // console.log("rect");
-        // console.log(rect);
 
         // 버튼의 위치 설정 (textarea 안에서)
         setCursorButtonPosition({

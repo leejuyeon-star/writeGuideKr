@@ -37,9 +37,6 @@ import writeguidekrGroup.writeguidekr.auth.oauth.PrincipalOauth2UserService;
  * */
 public class SecurityConfig {
 
-    //form login의 경우 login하는 post 컨트롤러를 만들지 않아도 된다
-//    private String LOGIN_TYPE = "/form-login";
-
     private final PrincipalOauth2UserService principalOauth2UserService;
 
 
@@ -53,11 +50,10 @@ public class SecurityConfig {
                 //!api 사용으로 authorizeHttpRequests은 사용하지 않고 컨트롤러에서 관리하기로 결정
 //                .authorizeHttpRequests(authorize -> authorize
                                 //(인증 여부 확인) 로그인된 사용자만 접근 가능하도록 함
-//                .requestMatchers(LOGIN_TYPE+"/info").authenticated()
+//                                .requestMatchers(LOGIN_TYPE+"/info").authenticated()
 //                                .requestMatchers("/product/form/**").authenticated()
-//                                .requestMatchers("/account").authenticated()
                                 //(인가 여부 확인) UserRole이 ADMIN인 사용자만 접근 가능하도록 함
-//                .requestMatchers(LOGIN_TYPE+"/admin/**").hasAuthority(UserRole.ADMIN.name())
+//                                .requestMatchers(LOGIN_TYPE+"/admin/**").hasAuthority(UserRole.ADMIN.name())
                                 //위에서 정의된 경로 외의 것은 모두 접근 가능
 //                                .anyRequest().permitAll()
 //                )
@@ -75,64 +71,8 @@ public class SecurityConfig {
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );
-
-
-//                .formLogin(formLogin -> formLogin                           //로그인시 form login 방식을 사용하겠다고 선언
-//                                .usernameParameter("loginId")                       // html에서 'username'대신 'loginId'를 사용하겠다고 명시
-//                                .passwordParameter("password")
-//                                .loginPage(LOGIN_TYPE+"/login")                     //로그인 페이지 url
-//                                .loginProcessingUrl(LOGIN_TYPE+"/login")                          // 로그인 처리 URL (여기에 POST 요청이 들어오면 Spring Security가 처리)
-//                                .defaultSuccessUrl(LOGIN_TYPE)                   //로그인 성공시 이동할 url
-////                        .failureUrl(LOGIN_TYPE+"/login")    //로그인 실패시 이동할 url
-//                                .failureHandler(new CustomAuthenticationFailureHandler()) // 커스텀 실패 핸들러
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl(LOGIN_TYPE+"/logout")                    //로그아웃 페이지 url
-//                        .invalidateHttpSession(true)
-//                        .deleteCookies("JSESSIONID")
-//                )
-//        ;
-//                .exceptionHandling(exceptionHandling -> exceptionHandling
-//                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()) // 사용자 정의 EntryPoint 설정
-//                );
         return http.build();
     }
-
-
-//
-//
-//    //로그인 실패시 에러메세지를 보내는 함수
-//    public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
-//
-//        @Override
-//        public void onAuthenticationFailure(HttpServletRequest request,
-//                                            HttpServletResponse response,
-//                                            AuthenticationException exception) throws IOException, ServletException {
-//            System.out.println("Login failed: " + exception.getMessage());
-//
-//            String errorMessage;
-//            if (exception instanceof BadCredentialsException) {
-//                errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";
-//            } else if (exception instanceof InternalAuthenticationServiceException) {
-//                errorMessage = "내부적으로 발생한 시스템 문제로 인해 요청을 처리할 수 없습니다. 관리자에게 문의하세요.";
-//            } else if (exception instanceof UsernameNotFoundException) {
-//                errorMessage = "계정이 존재하지 않습니다. 회원가입 진행 후 로그인 해주세요.";
-//            } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
-//                errorMessage = "인증 요청이 거부되었습니다. 관리자에게 문의하세요.";
-//            } else {
-//                errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
-//            }
-//            System.out.println(errorMessage);
-//
-//            // 세션에 에러 메시지 저장 (세션에 저장함으로써 URI에 에러메시지가 노출되지 않도록 한다)
-//            HttpSession session = request.getSession(true);         //현 세션 가져오기, 세션이 없으면 새로 생성
-//            session.setAttribute(SessionConst.ERRORMASSAGE.name(), "Login failed: " + errorMessage);      //세션 저장소에 저장
-//
-//            // 로그인 페이지로 리다이렉트
-//            response.sendRedirect(request.getContextPath() + LOGIN_TYPE + "/login");
-//        }
-//
-//    }
 
     /*
      * 비밀번호 암호화, 비밀번호 체크할때 사용

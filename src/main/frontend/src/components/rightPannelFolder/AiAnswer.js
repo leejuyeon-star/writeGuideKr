@@ -18,8 +18,6 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
 
     useEffect(() => {
         // 기본 텍스트를 설정합니다.
-        console.log("answerState");
-        console.log(answerState);
         if (answerState === "LOADING"){
             setIsClicked(["","",""]);
             setIsClickedResponseTextButton([false, 0]);
@@ -78,13 +76,6 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
         }
     }
 
-    // const handleClickConfirm = () => {
-    //     setIsClicked("","","");
-    //     onChangeContent(true, responseTxt);
-    //     setAnswerState("IDLE");
-    // }
-
-    
 
 
 
@@ -97,21 +88,9 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
                 :
                 ((answerState === "LOADING") || (answerState === "RELOADING")  ? 
                     <div className="aa-textarea-section">
-                        {/* <div className="aa-loading-section"> */}
                             <div className="aa-loading-animation-box">
                                     <div className="aa-loading-animation-loader"></div>
                             </div>
-                        {/* </div> */}
-                        {/* <div className="aa-loading-section">
-                            <div className="aa-loading-animation-box">
-                                    <div className="aa-loading-animation-loader"></div>
-                            </div>
-                        </div>
-                        <div className="aa-loading-section">
-                            <div className="aa-loading-animation-box">
-                                    <div className="aa-loading-animation-loader"></div>
-                            </div>
-                        </div> */}
                     </div>
                     :
                     (answerState === "RECEIVED" ?

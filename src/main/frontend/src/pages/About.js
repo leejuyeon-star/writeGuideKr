@@ -20,7 +20,6 @@ function About() {
     useEffect(() => {
 
         contentRef.current.focus();
-        console.log(contentRef.current);
         contentRef.current.innerText = 
         ` 글쓰기 ai 도우미 '글잇다'입니다. 다음 녹색 버튼을 클릭
         

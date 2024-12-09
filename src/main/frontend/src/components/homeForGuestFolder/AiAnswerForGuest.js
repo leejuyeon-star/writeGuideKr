@@ -18,8 +18,6 @@ function AiAnswer({ onRequestedHelp, response, onChangeContent, responseErrorMsg
 
     useEffect(() => {
         // 기본 텍스트를 설정합니다.
-        console.log("answerState");
-        console.log(answerState);
         if (answerState === "LOADING"){
             setIsClicked(["","",""]);
             setIsClickedResponseTextButton([false, 0]);

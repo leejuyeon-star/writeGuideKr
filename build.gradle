@@ -30,8 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// 동기 방식 사용할때
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// 비동기 논블럭킹 방식 사용할때
-	//Mono<>, Flex<> 사용가능하게 됨
+	// 비동기 논블럭킹 방식 사용할때. Mono<>, Flex<> 사용가능하게 됨
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	// Configuration Properties 처리를 위한 의존성 추가
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

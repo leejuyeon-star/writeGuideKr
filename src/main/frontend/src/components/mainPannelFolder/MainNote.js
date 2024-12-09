@@ -64,7 +64,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     //문자열 바꾸라고 하면 내용 바꾸기
     useEffect(() => {
         const [_requestMsg, isApply,changingTxt,_content,selectedIdx] = changedContentInfo;
-        // console.log(_requestMsg, isApply,changingTxt,_content,selectedIdx);
         if (_requestMsg === "") {return;}
         if (_requestMsg === "draggedText") {
             if (changingTxt === "") {       //기존 내용으로 돌아와야 할 경우
@@ -72,7 +71,7 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
                 return;
             }
             if (isApply) {
-                // console.log("진짜바꾸기");
+                // 메모장에 실제 적용하기 (ai 단어 클릭한 경우)
                 const leftTxt = _content.slice(0,selectedIdx[0]);
                 const rightTxt = _content.slice(selectedIdx[1], );
                 const resultTxt = `${leftTxt} ${changingTxt} ${rightTxt}`;
@@ -81,9 +80,9 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
 
                 setDoc({text: resultTxt});
             } else {
+                // ai 단어 단순 드래그한 경우
                 const leftTxt = _content.slice(0,selectedIdx[0]);
                 const rightTxt = _content.slice(selectedIdx[1], );
-                // console.log(`${leftTxt} ${changingTxt} ${rightTxt}`);
                 setChangedContent(`${leftTxt} ${changingTxt} ${rightTxt}`);
             }
         } else if (_requestMsg === "afterSentence") {
@@ -95,12 +94,12 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
             const rightTxt = _content.slice(selectedIdx, );
             const resultTxt = `${leftTxt} ${changingTxt} ${rightTxt}`
             if (isApply) {
-                // console.log("진짜바꾸기");
+                // 메모장에 실제 적용하기 (ai 단어 클릭한 경우)
                 setContent(resultTxt);
                 setChangedContent("");
                 setDoc({text: resultTxt});
             } else {
-                // console.log(`${_content} ${changingTxt}`);
+                // ai 단어 단순 드래그한 경우
                 setChangedContent(resultTxt);
             }
         }
@@ -115,10 +114,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
             onRequestedHelp([requestMsg, content, param])
         }
         
-        // if (!isRightPannelVisible){
-            // onRightPannelVisible(true);
-            // setIsRightPannelVisible(true);
-        // }
         setIsDraggedButtonOn(false);
         setIsCursorButtonOn(false)
     };
@@ -133,21 +128,8 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
             // console.log("isComposing 무시");
             // return;
         // }
-        console.log("이거 마우스오버될때 출력되면 안된다 출력되면 곤란해");
         setContent(contentRef.current.innerText);
         setDoc({text: event.target.innerText});
-        // console.log("===================onInput=================");
-        // console.log(contentRef.current.innerText);
-        // console.log(event);
-        // console.log(event.target.innerText);
-        // console.log("index");
-        // console.log(docStateIndex);
-        // console.log("doc")
-        // console.log(doc)
-        // console.log("doc.text")
-        // console.log(doc.text)
-        // console.log("==========================================");
-        // setDoc({text: contentRef.current.innerText});
         setIsCursorButtonOn(true);
         relocateCursorButton(window.getSelection());
 
@@ -162,21 +144,17 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
         const range = selection.getRangeAt(0);
         
         const lastText = range.startContainer.nodeValue; // 마지막 문장
-        const selectedText = findDraggedText(selection);
+        const selectedText = findDraggedText(selection);            //ai 추천단어
         const firstSentenceLastIdx = content.indexOf(lastText); //마지막 문장 이전 문장의 마지막 인덱스
         const startIndex = firstSentenceLastIdx + lastText.indexOf(selectedText, range.startOffset);        //이전문장까지의 인덱스 + 단어가 들어간 문장 기준 단어의 인덱스
-        const endIndex = startIndex + selectedText.length;
-        
-        // const firstIndex = content.indexOf(selectedText);
-        // const endIndex = content.indexOf(selectedText)+selectedText.length;
+        const endIndex = startIndex + selectedText.length;      //끝 인덱스
 
-        // setSelectedWordInfo(`선택된 단어: "${selectedText}", 시작 인덱스: ${startIndex}, 끝 인덱스: ${endIndex}`);
         return [startIndex, endIndex];
     }
     
     //드래그한 문자 찾기
     const findDraggedText = (selection) => {                
-         return selection.toString().trim();       //.trim()붙여도돼?
+         return selection.toString().trim();      
     };    
 
     // //클릭한 부분 문장의 인덱스 찾기
@@ -194,7 +172,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
             const selectedText = findDraggedText(selection);
             let withoutspace = selectedText.replace(/\s+/g, '');       
             if (selectedText.length <= 0 || withoutspace.length <= 1) {
-                // setSelectedText('');
                 return false;
             }
             return true;
@@ -278,10 +255,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
     const onCursorButtonClick = () => {
         const selection = window.getSelection();
         const range = selection.getRangeAt(0);
-
-    //     const textNode = range.startContainer; // 선택한 텍스트의 시작 노드
-    //     const text = textNode.nodeValue; // 텍스트 노드의 값
-    //     return range.startOffset;
 
         const currentNodeText = range.startContainer.nodeValue; // 현재 클릭한 부분의 문장
         const cursorIdxInCurrentNode = range.startOffset; // 선택한 텍스트의 시작 노드
@@ -392,18 +365,6 @@ function MainNote({ onRequestedHelp, changedContentInfo }) {
         setIsDraggedButtonOn(false);
     }
     //======================================================//
-
-    const localSaveContent = () => {
-    //     //임시저장해야함??????
-    //     if (memberAccount.loginId) {
-            
-    //     }
-    //     localStorage.setItem("content id명", contentRef.current.innerText);
-    }
-
-    // const localLoadContent = () => {
-    //     localStorage.getItem("content id명");
-    // }
 
 
 

@@ -15,8 +15,6 @@ export const ResponseGet = async (path, param = {}) => {
             console.log(response.data);
             return [true, response.data];
     } catch (error) {
-        // console.log("jsonRequestMsg:");
-        // console.log(jsonRequestMsg);
         console.log("error:");
         console.log(error);
         return [false, `네트워크 연결 실패. \n 잠시 후 다시 시도해주세요`];

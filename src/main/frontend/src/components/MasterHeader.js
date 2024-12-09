@@ -26,7 +26,6 @@ function MasterHeader() {
     //회원/게스트 여부 확인
     useEffect(() => {
         async function a() {
-            console.log("Home useEffect");
             const _memberAccount = await GetMemberAccount();     //토큰 총 수 가져오기
             console.log(_memberAccount)
             if (_memberAccount.userName === "NON_MEMBER") {
@@ -46,51 +45,11 @@ function MasterHeader() {
         a();
     }, []);
 
-    //localStorage로 회원/게스트 여부 확인
-    // useEffect(() => {
-    //     async function a() {
-    //         console.log("MasterHeader useEffect");
-    //         const _isMember =  JSON.parse(localStorage.getItem("isMember"));        //회원/게스트 여부 확인, boolean으로 형변환
-    //         console.log(_isMember);
-    //         console.log(typeof _isMember);
-    //         if (_isMember){
-    //             //회원
-    //             console.log("회원임");
-    //             setIsMember(true);
-    //         } else {
-    //             //게스트
-    //             console.log("게스트임");
-    //             setIsMember(false);
-    //         }
-    //     }
-    //     a();
-    // }, []);
 
-
-    //다른 탭에서만 작동함
-    // //localStorage로 회원/게스트 여부 확인, localStorage가 업데이트되면 호출됨
-    // useEffect(() => {
-    //     const handleStorageChange = (event) => {
-    //       if (event.key === "isMember") {
-    //         console.log("localStorage 값이 변경되었습니다:", event.newValue);
-    //         setIsMember(JSON.parse(event.newValue));
-    //       }
-    //     };
-    
-    //     // storage 이벤트 리스너 등록
-    //     window.addEventListener("storage", handleStorageChange);
-    
-    //     // 컴포넌트 언마운트 시 리스너 제거
-    //     return () => {
-    //       window.removeEventListener("storage", handleStorageChange);
-    //     };
-    // }, []);
     
 
 
     async function onLogout() {
-        // localStorage.setItem("nickname", "");
-        // setNickname("");
         await Logout();
     }
 

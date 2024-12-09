@@ -47,4 +47,7 @@
 ![ai-error-4](https://github.com/user-attachments/assets/465fdb08-88b5-49c0-8d44-ed2f5acedce7)
 ![ai-error-5](https://github.com/user-attachments/assets/bfdcdd0c-f171-4f0f-82c0-88b620714d42)
 ## 기술 블로그
-
+[(SpringBoot) jpaRepsitory bean 등록 관련 오류 해결](https://annyeong46.tistory.com/64)
+[(React)useBlocker 관련 오류 해결](https://annyeong46.tistory.com/65)
+[(React)UseEffect의 async/await 관련 오류 해결](https://annyeong46.tistory.com/67)
+[원격서버에 프로젝트 빌드시 서버 다운되는 문제 해결](https://annyeong46.tistory.com/68)

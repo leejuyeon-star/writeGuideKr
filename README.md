@@ -2,7 +2,7 @@
 ![image](https://capsule-render.vercel.app/api?type=transparent&color=4dffd2&height=120&text=글잇다&animation=&fontColor=000000&fontSize=50)
 
 ## 시연
-
+![tutorial-default-page](https://github.com/user-attachments/assets/aa05bc32-5fed-41de-a545-1a2cfcb56d0f)
 ## 프로젝트 소개
 * 글 작문에 도움을 주는 ai 웹사이트입니다.
 ## 제작 기간

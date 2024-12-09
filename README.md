@@ -1,6 +1,5 @@
 
 ![image](https://capsule-render.vercel.app/api?type=transparent&color=4dffd2&height=120&text=글잇다&animation=&fontColor=000000&fontSize=50)
-
 ## 시연
 ![ai-aftersentence2](https://github.com/user-attachments/assets/a4828ce5-2fc1-456c-885c-81b951c73d03)
 ## 프로젝트 소개
@@ -14,8 +13,8 @@
 ## 주요 기능
 ### 회원 관리 기능
 * 로그인 & 회원가입 화면
-![login-page](https://github.com/user-attachments/assets/55bdf74c-785f-4481-a3df-ea61e5ca5995)
-	- 네이버, 구글 소셜 로그인 기능
+- <img src="https://github.com/user-attachments/assets/55bdf74c-785f-4481-a3df-ea61e5ca5995" width="50%" />
+- 네이버, 구글 소셜 로그인 기능
 - 로그아웃 기능
 - 탈퇴 기능
 ### ai 관련 기능

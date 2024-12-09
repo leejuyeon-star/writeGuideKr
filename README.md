@@ -1,7 +1,9 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/93f4befa-dbac-43ef-be99-d93f65dee73f" width="30%" />
+</p>
 
-![image](https://capsule-render.vercel.app/api?type=transparent&color=4dffd2&height=120&text=글잇다&animation=&fontColor=000000&fontSize=50)
 ## 프로젝트 소개
-* 글 작문에 도움을 주는 ai 웹사이트입니다.
+* 전하고 싶은데 적절한 표현이 생각나지 않을때! 사용한 단어가 너무 진부할때! 도움을 주는 ai 웹사이트입니다.
 ## 시연
 ![ai-aftersentence2](https://github.com/user-attachments/assets/a4828ce5-2fc1-456c-885c-81b951c73d03)
 ## 제작 기간
@@ -16,16 +18,21 @@
 - 로그아웃 기능
 - 탈퇴 기능
 ### ai 관련 기능
-- 특정 문장구 이후에 나올 표현 추천 기능 
+- 특정 문장구 이후에 나올 표현 추천 기능
+    - 이용자가 편집하고 싶은 부분을 클릭
+    - 이용자가 적어놓은 글을 전처리하여 ai 프롬프트에 전달, ai에서 나온 답변을 전처리하여 출력 
 - 특정 단어를 드래그시 문맥에 어울리는 다른 단어 추천 기능
+    - 이용자가 편집하고 싶은 단어구를 드래그
+    - 이용자가 적어놓은 글을 전처리하여 ai 프롬프트에 전달, ai에서 나온 답변을 전처리하여 출력 
+- 토큰 시스템을 설정하여 ai 요청 횟수를 제한
+  - ai 요청시 1토큰 차감, 4시간 지나면 토큰 갱신
 - ai 재요청 기능
-- ai 요청시 1토큰 차감, 4시간 지나면 토큰 갱신
 ### 문서 편집 관련 기능
 - undo, redo 기능
 - 복사 기능
 - 페이지 벗어나기 전 알림기능
 - 글자수 세기 기능
-- 커서 오른쪽 아래 ai 버튼 따라오도록 구현
+- ai 요청 버튼이 커서를 따라오도록 위치 배치
 ### 튜토리얼 화면
 ![tutorial-default-page](https://github.com/user-attachments/assets/aa05bc32-5fed-41de-a545-1a2cfcb56d0f)
 ### 오류 화면

@@ -7,8 +7,12 @@
 * 글 작문에 도움을 주는 ai 웹사이트입니다.
 ## 제작 기간
 * 2024.10.28 ~ 2024.12.6 (1개월)
-## 사용 기술
-* 
+## 시스템 아키텍쳐 구성
+### - 전체 구성도
+![github architecture](https://github.com/user-attachments/assets/ec508939-1ed9-4678-919b-c425aceb2dc9)
+### - 백엔드 세부 기술 구성도
+![github architecture2](https://github.com/user-attachments/assets/9254406e-eecd-46f0-a1a3-6fd47b62b9c5)
+
 ## 주요 기능
 ![image](https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white)
 *

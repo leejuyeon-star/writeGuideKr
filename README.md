@@ -3,8 +3,9 @@
 </p>
 
 ## 프로젝트 소개
-* 전하고 싶은데 적절한 표현이 생각나지 않을때! 사용한 단어가 너무 진부할때! 도움을 주는 ai 웹사이트입니다.
-## 시연
+* "매출 50억원을 목표로... [하고있습니다]? [삼았습니다]? 다른 좋은 표현 없나?"
+* 글쓰기 도중 적절한 표현이 생각나지 않을때! 사용한 단어가 너무 진부한 것 같을 때! 도움을 주는 ai 웹사이트입니다.
+## 구현 화면
 ![ai-aftersentence2](https://github.com/user-attachments/assets/a4828ce5-2fc1-456c-885c-81b951c73d03)
 ## 제작 기간
 * 2024.10.28 ~ 2024.12.6 (1개월)
@@ -12,11 +13,8 @@
 ### - 전체 구성도
 ![github architecture](https://github.com/user-attachments/assets/ec508939-1ed9-4678-919b-c425aceb2dc9)
 ### - 백엔드 세부 기술 구성도
+![github architecture2](https://github.com/user-attachments/assets/9254406e-eecd-46f0-a1a3-6fd47b62b9c5)
 ## 주요 기능
-### 회원 관리 기능
-- 네이버, 구글 소셜 로그인&회원가입 기능
-- 로그아웃 기능
-- 탈퇴 기능
 ### ai 관련 기능
 - 특정 문장구 이후에 나올 표현 추천 기능
     - 이용자가 편집하고 싶은 부분을 클릭
@@ -33,8 +31,13 @@
 - 페이지 벗어나기 전 알림기능
 - 글자수 세기 기능
 - ai 요청 버튼이 커서를 따라오도록 위치 배치
+### 회원 관리 기능
+- 네이버, 구글 소셜 로그인&회원가입 기능
+- 로그아웃 기능
+- 탈퇴 기능
 ### 튜토리얼 화면
-![tutorial-default-page](https://github.com/user-attachments/assets/aa05bc32-5fed-41de-a545-1a2cfcb56d0f)
+- 사이트 사용법을 설명
+  
 ### 오류 화면
 <img src="https://github.com/user-attachments/assets/e311dc32-e88f-46ad-8ef5-2bc612ac1206" width="49%" />
 <img src="https://github.com/user-attachments/assets/b3ec6deb-c87b-494d-9427-9804be09809b" width="49%" />

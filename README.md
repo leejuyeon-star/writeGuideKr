@@ -25,10 +25,15 @@
 	- 탈퇴 기능
 ### ai 관련 기능
 	- 문자 잇기 관련 화면
-		- 문자를 타자로 쓰면서 버튼이 따라오는거 확인시키기
-	- 단어 바꾸기 관련 화면
-![ai-aftersentence1](https://github.com/user-attachments/assets/764483a7-08e8-40b6-9d79-09d4a8dba965)
+ ![ai-aftersentence1](https://github.com/user-attachments/assets/764483a7-08e8-40b6-9d79-09d4a8dba965)
 ![ai-aftersentence2](https://github.com/user-attachments/assets/a4828ce5-2fc1-456c-885c-81b951c73d03)
+![ai-aftersentence3](https://github.com/user-attachments/assets/3d525e11-0d7e-4474-9ed2-0847d91170bb)
+	- 단어 바꾸기 관련 화면
+![ai-betweenword1](https://github.com/user-attachments/assets/201baa60-bce5-478b-b052-c713722e6b37)
+![ai-betweenword2](https://github.com/user-attachments/assets/b1dd56d0-29f9-4f32-865e-82e9ea1fa9c1)
+![ai-betweenword3](https://github.com/user-attachments/assets/9c0f213c-1f28-4164-ae6d-983ca7c7bcc9)
+![ai-betweenword4](https://github.com/user-attachments/assets/44da6eac-fc51-4cc2-add9-aedba3cc285b)
+
 	- ai 재시도 기능
 	- 토큰 제한 화면, 시간 지나면 돌아오도록 구현
 ### 문서 편집 관련 기능
@@ -37,7 +42,9 @@
 	- 복사하기 기능
 	- 페이지 나가기 전 알림기능
 	- 글자수 세기 기능
+ 	- 커서 오른쪽 아래 ai 버튼 따라오도록 구현
 ### 튜토리얼 화면
+![tutorial-default-page](https://github.com/user-attachments/assets/aa05bc32-5fed-41de-a545-1a2cfcb56d0f)
 ### 오류 화면
   ![ai-error-1](https://github.com/user-attachments/assets/e311dc32-e88f-46ad-8ef5-2bc612ac1206)
 ![ai-error-2](https://github.com/user-attachments/assets/b3ec6deb-c87b-494d-9427-9804be09809b)
